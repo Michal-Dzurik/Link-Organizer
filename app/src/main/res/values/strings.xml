@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">Link Organizer</string>
+    <string name="Folders">Folders</string>
+    <string name="add_folder">Add Folder</string>
+    <string name="No">No</string>
+    <string name="Yes">Yes</string>
+    <string name="Delete_Item">Delete Item</string>
+    <string name="Do_you_really_want_to_delete">Do you really want to delete </string>
+    <string name="Folder">Folder</string>
+    <string name="was_removed_successfully">was removed successfully</string>
+    <string name="You_didnt_fill_up_everything">You didn\'t fill up everything</string>
+    <string name="wasnt_created">wasn\'t created</string>
+    <string name="links">Links</string>
+    <string name="there_are_no_links_in_this_folder_yet">There are no links in this folder yet</string>
+    <string name="there_are_no_folders_in_here_yet">There are no folders in here yet</string>
+    <string name="url">URL</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="folder_name">Folder Name</string>
+    <string name="Link">Link</string>
+    <string name="save_database_backup">Save Database Backup</string>
+    <string name="restore_database">Restore Database</string>
+    <string name="link_name_is_too_long_max">Link Name is too long (max </string>
+    <string name="link_description_is_too_long_max">Link Description is too long (max </string>
+    <string name="folder_name_is_too_long_max">Folder Name is too long (max </string>
+    <string name="folder_description_is_too_long_max">Folder Description is too long (max </string>
+    <string name="url_is_not_valid">URL is not valid</string>
+    <string name="folder_is_not_valid">Folder is not valid</string>
+    <string name="file_is_not_valid">File is not valid</string>
+    <string name="you_havent_chosen_any_folder">You haven\'t choose any folder</string>
+    <string name="you_havent_chosen_any_file">You haven\'t choose any file</string>
+    <string name="export_was_unsuccessful">Export was unsuccessful</string>
+    <string name="import_was_unsuccessful">Import was unsuccessful</string>
+    <string name="site_is_not_supported">Site is not supported</string>
+    <string name="valid_url_isnt_provided">Valid URL isn\'t provided</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="filter">Filter</string>
+    <string name="flush">Flush</string>
+    <string name="sort_by">Sort by</string>
+    <string name="you_selected">You selected </string>
+
+    <string name="none">None</string>
+    <string name="by_name_asc">By name ASC (a-z)</string>
+    <string name="by_name_desc">By name DESC (z-a)</string>
+    <string name="by_description_asc">By description ASC (a-z)</string>
+    <string name="by_description_desc">By description DESC (z-a)</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="operation_unsuccessful">Operation unsuccessful</string>
+    <string name="you_havent_changed_anything">You haven\'t changed anything</string>
+    <string name="folder_edited_successfully">Folder edited successfully</string>
+
+    <string-array name="sort">
+        <item>@string/none</item>
+        <item>@string/by_name_asc</item>
+        <item>@string/by_name_desc</item>
+        <item>@string/by_description_asc</item>
+        <item>@string/by_description_desc</item>
+    </string-array>
+
+    <integer-array name="sort_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </integer-array>
+
+
+</resources>

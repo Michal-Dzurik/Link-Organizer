@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="sk.po.spse.dzurikm.linkorganizer">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        android:minSdkVersion="30" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo_rounded"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo_rounded"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LinkOrganizer">
+        <activity
+            android:name=".activities.FolderContentActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

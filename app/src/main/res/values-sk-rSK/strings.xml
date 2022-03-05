@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">Organizér Odkazov</string>
+    <string name="Folders">Priečinky</string>
+    <string name="add_folder">Pridať Priečinok</string>
+    <string name="No">Nie</string>
+    <string name="Yes">Áno</string>
+    <string name="Delete_Item">Vymazať položku</string>
+    <string name="Do_you_really_want_to_delete">Ste si istý, že chcete vymazať </string>
+    <string name="Folder">Priečinok</string>
+    <string name="was_removed_successfully">bol vymazaný úspešne</string>
+    <string name="You_didnt_fill_up_everything">Nevyplnili ste všetko potrebné</string>
+    <string name="wasnt_created">nebol vytvorený</string>
+    <string name="links">Odkazy</string>
+    <string name="there_are_no_links_in_this_folder_yet">V priečinku zatiaľ nie sú žiadne odkazy</string>
+    <string name="there_are_no_folders_in_here_yet">Žiadny priečinok neexistuje</string>
+    <string name="url">Adresa URL</string>
+    <string name="description">Popis</string>
+    <string name="title">Nadpis</string>
+    <string name="folder_name">Názov priečinku</string>
+    <string name="Link">Odkaz</string>
+    <string name="save_database_backup">Uložiť zálohu Databázy</string>
+    <string name="restore_database">Obnoviť Databázu</string>
+    <string name="link_name_is_too_long_max">Odkaz má príliš dlhý názov (maximálne </string>
+    <string name="link_description_is_too_long_max">Popis odkazu je príliš dlhý (maximálne </string>
+    <string name="folder_name_is_too_long_max">Priečinok má príliš dlhý názov (maximálne </string>
+    <string name="folder_description_is_too_long_max">Popis priečinku je príliš dlhý (maximálne </string>
+    <string name="url_is_not_valid">Adresa URL nie je valídna</string>
+    <string name="folder_is_not_valid">Priečinok nie je správny</string>
+    <string name="file_is_not_valid">Súbor nie je valídny</string>
+    <string name="you_havent_chosen_any_folder">Nevybrali ste žiaden priečinok</string>
+    <string name="you_havent_chosen_any_file">Nevybrali ste žiaden súbor</string>
+    <string name="export_was_unsuccessful">Uloženie nebolo úspešné</string>
+    <string name="import_was_unsuccessful">Obnovenie nebolo úspešné</string>
+    <string name="site_is_not_supported">Stránka nie je podporovaná</string>
+    <string name="valid_url_isnt_provided">Nie je k dispozícii žiadna valídna URL adresa</string>
+    <string name="something_went_wrong">Niečo sa stalo</string>
+    <string name="filter">Filtrovať</string>
+    <string name="flush">Zrušiť</string>
+    <string name="sort_by">Zoradiť podľa </string>
+    <string name="you_selected">Vybrali ste </string>
+
+    <string name="none">Ničoho</string>
+    <string name="by_name_asc">Názvu priečinku (a-z)</string>
+    <string name="by_name_desc">Názvu priečinku (z-a)</string>
+    <string name="by_description_asc">Popisu prečinku ASC (a-z)</string>
+    <string name="by_description_desc">Popisu prečinku DESC (z-a)</string>
+    <string name="cancel">Zrušiť</string>
+    <string name="edit">Upraviť</string>
+    <string name="operation_unsuccessful">Operácia neúspešná</string>
+    <string name="you_havent_changed_anything">Nezmenili ste názov</string>
+    <string name="folder_edited_successfully">Priečinok bol upravený</string>
+
+    <string-array name="sort">
+        <item>@string/none</item>
+        <item>@string/by_name_asc</item>
+        <item>@string/by_name_desc</item>
+        <item>@string/by_description_asc</item>
+        <item>@string/by_description_desc</item>
+    </string-array>
+
+    <integer-array name="sort_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </integer-array>
+
+
+</resources>
