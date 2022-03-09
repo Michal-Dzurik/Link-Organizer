@@ -1,5 +1,8 @@
 package sk.po.spse.dzurikm.linkorganizer.activities;
 
+import static android.content.DialogInterface.BUTTON_POSITIVE;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +10,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -36,11 +41,13 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.adapters.FolderAdapter;
 import sk.po.spse.dzurikm.linkorganizer.heandlers.DatabaseHandler;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
 import sk.po.spse.dzurikm.linkorganizer.views.BackupDialog;
+import sk.po.spse.dzurikm.linkorganizer.views.SettingsDialog;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView foldersGridRecyclerView;
@@ -52,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private static LinkedList<Folder> folders;
     private ConstraintLayout addFolderBox, settingBox;
     private MotionLayout root;
+    private SettingsDialog settingsDialog;
 
     private static DatabaseHandler databaseHandler;
     private static FolderAdapter adapter;
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private final int MAX_FOLDER_DESCRIPTION_LENGTH = 30;
 
     private BackupDialog backupDialog;
+
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -104,12 +113,16 @@ public class MainActivity extends AppCompatActivity {
         adapter = new FolderAdapter(this,folders);
 
         foldersGridRecyclerView.setAdapter(adapter);
-        foldersGridRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,2));
+        foldersGridRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,2) );
+        foldersGridRecyclerView.setNestedScrollingEnabled(false);
+
+        settingsDialog = SettingsDialog.newInstance();
 
         moreOptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSettings();
+
+                settingsDialog.show(getSupportFragmentManager(),"");
             }
         });
 
@@ -246,25 +259,6 @@ public class MainActivity extends AppCompatActivity {
         root.transitionToState(R.id.addFolderBoxHidden);
     }
 
-    private void dismissSettings(){
-        hideKeyboard();
-        root.clearFocus();
-
-        root.transitionToState(R.id.settingsHidden);
-    }
-
-    private void showSettings(){
-        if (!settingBox.hasFocus()){
-            settingBox.requestFocus();
-        }
-
-        Log.i("OK", String.valueOf(foldersGridRecyclerView.isFocused()));
-        foldersGridRecyclerView.clearFocus();
-
-
-        root.transitionToState(R.id.settingsShowed);
-    }
-
     private void showAddFolderBox(){
         if (!addFolderBox.hasFocus()){
             addFolderBox.requestFocus();
@@ -371,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (root.getCurrentState() != R.id.addFolderBoxHidden || root.getCurrentState() != R.id.settingsHidden){
+        if (root.getCurrentState() != R.id.addFolderBoxHidden){
             root.transitionToState(R.id.addFolderBoxHidden);
         }
         else {
