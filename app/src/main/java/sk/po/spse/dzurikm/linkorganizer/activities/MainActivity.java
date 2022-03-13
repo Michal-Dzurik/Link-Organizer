@@ -1,8 +1,6 @@
 package sk.po.spse.dzurikm.linkorganizer.activities;
 
-import static android.content.DialogInterface.BUTTON_POSITIVE;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +8,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +23,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -80,9 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("DATABASE URL","/data/data/" + getPackageName() + "/databases/LinkOrganizer");
 
-        // TODO: https://stackoverflow.com/questions/64163016/motionlayout-onswipe-not-working-on-clickable-children
-        // this helped
-
         root.transitionToEnd();
 
         foldersGridRecyclerView = (RecyclerView) findViewById(R.id.group_grid_layout);
@@ -98,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         noFoldersMessage = (TextView) findViewById(R.id.noFoldersMessage);
 
         moreOptionButton = (FloatingActionButton) findViewById(R.id.moreOptionButton);
+        moreOptionButton.setVisibility(View.GONE);
         settingBox = (ConstraintLayout) findViewById(R.id.settingsBox);
 
         databaseHandler = new DatabaseHandler(MainActivity.this);

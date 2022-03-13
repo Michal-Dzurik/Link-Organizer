@@ -70,14 +70,6 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
             originalSizeOfAdapter += 1;
             holder.getRoot().startAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_in_bottom));
         }
-        else if (position == links.size() - 1){
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.setMargins((int) convertDpToPixel(15f),(int) convertDpToPixel(7f),(int) convertDpToPixel(15f),(int) convertDpToPixel(30f));
-            holder.getRoot().setLayoutParams(params);
-        }
 
     }
 

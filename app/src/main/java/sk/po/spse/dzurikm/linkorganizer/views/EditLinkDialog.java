@@ -44,6 +44,8 @@ public class EditLinkDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.edit_link_dialog_layout);
 
+        this.getWindow().setDimAmount(.5f);
+
         positiveButton = (Button) findViewById(R.id.positiveButton);
         negativeButton = (Button) findViewById(R.id.negativeButton);
 

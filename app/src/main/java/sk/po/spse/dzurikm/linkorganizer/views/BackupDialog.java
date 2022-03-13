@@ -35,6 +35,8 @@ public class BackupDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.backup_dialog_layout);
 
+        this.getWindow().setDimAmount(.5f);
+
         backupButton = (ImageButton) findViewById(R.id.exportDatabaseButton);
         importButton = (ImageButton) findViewById(R.id.importDatabaseButton);
 

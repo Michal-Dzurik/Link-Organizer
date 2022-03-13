@@ -42,7 +42,7 @@ public class SettingsDialog extends BottomSheetDialogFragment {
         rootView = View.inflate(getContext(), R.layout.settings_dialog_layput, null);
         dialog.setContentView(rootView);
 
-        dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
+        //dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         dialog.getWindow().setDimAmount(0.0f);
 
         colorPickerButton = (CardView) rootView.findViewById(R.id.folderColorPickerButton);

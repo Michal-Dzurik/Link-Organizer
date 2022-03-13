@@ -412,12 +412,12 @@ public class FolderContentActivity extends AppCompatActivity {
         hideKeyboard();
         root.clearFocus();
 
-        root.transitionToState(R.id.addFolderBoxHidden);
+        root.transitionToState(R.id.addLinkBoxHidden);
     }
 
     private void showAddLinkBox() {
         root.clearFocus();
-        root.transitionToState(R.id.addFolderBoxShowed);
+        root.transitionToState(R.id.addLinkBoxShowed);
     }
 
     public void hideKeyboard() {
@@ -433,7 +433,13 @@ public class FolderContentActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (root.getCurrentState() != R.id.addLinkBoxHidden){
+            root.transitionToState(R.id.addLinkBoxHidden);
+        }
+        else {
+            super.onBackPressed();
+        }
+
     }
 
     @Override

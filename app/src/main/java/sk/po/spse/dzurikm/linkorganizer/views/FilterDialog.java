@@ -35,6 +35,8 @@ public class FilterDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.filter_dialog_layout);
 
+        this.getWindow().setDimAmount(.5f);
+
         spinner = (Spinner) findViewById(R.id.spinner);
         positiveButton = (Button) findViewById(R.id.positiveButton);
         negativeButton = (Button) findViewById(R.id.negativeButton);

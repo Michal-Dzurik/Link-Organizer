@@ -17,13 +17,6 @@
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/backgroundColor</item>
-        <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
-        <item name="android:colorPrimary">@color/blue</item>
-        <item name="android:colorAccent">@color/blue_lighter</item>
     </style>
 
 </resources>

@@ -2,7 +2,7 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ConstraintSet android:id="@+id/addFolderBoxHidden">
+    <ConstraintSet android:id="@+id/addLinkBoxHidden">
         <Constraint android:id="@id/addLinkBox"
             android:layout_width="match_parent"
             android:layout_height="330dp"
@@ -16,7 +16,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/addFolderBoxShowed">
+    <ConstraintSet android:id="@+id/addLinkBoxShowed">
         <Constraint android:id="@id/addLinkBox"
             android:layout_width="match_parent"
             android:layout_height="330dp"
@@ -31,8 +31,8 @@
     </ConstraintSet>
 
     <Transition
-        app:constraintSetStart="@id/addFolderBoxHidden"
-        app:constraintSetEnd="@id/addFolderBoxShowed">
+        app:constraintSetStart="@id/addLinkBoxHidden"
+        app:constraintSetEnd="@id/addLinkBoxShowed">
         <OnSwipe
             app:touchAnchorId="@id/addLinkBox"
             app:touchRegionId="@id/addLinkBox"
@@ -42,8 +42,8 @@
     </Transition>
 
     <Transition
-        app:constraintSetStart="@id/addFolderBoxShowed"
-        app:constraintSetEnd="@id/addFolderBoxHidden">
+        app:constraintSetStart="@id/addLinkBoxShowed"
+        app:constraintSetEnd="@id/addLinkBoxHidden">
 
     </Transition>
 </MotionScene>
