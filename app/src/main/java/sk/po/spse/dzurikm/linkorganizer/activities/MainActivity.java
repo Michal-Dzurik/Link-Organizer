@@ -4,6 +4,7 @@ package sk.po.spse.dzurikm.linkorganizer.activities;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -15,6 +16,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -46,7 +48,7 @@ import sk.po.spse.dzurikm.linkorganizer.views.BackupDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.SettingsDialog;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView foldersGridRecyclerView;
+    private static RecyclerView foldersGridRecyclerView;
     private ImageButton addFolderButton,dismissAddFolderButton,approveAddFolderButton,backupButton;
     private EditText folderNameInput,folderDescriptionInput;
     private TextView noFoldersMessage;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout addFolderBox, settingBox;
     private MotionLayout root;
     private SettingsDialog settingsDialog;
+    private static CardView folderBackground,folderBookmark;
 
     private static DatabaseHandler databaseHandler;
     private static FolderAdapter adapter;
@@ -65,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
     private BackupDialog backupDialog;
 
+    public static SharedPreferences sharedPreferences;
+    public static SharedPreferences.Editor sharedPreferencesEditor;
+
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -72,9 +78,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        root = (MotionLayout) findViewById(R.id.root);
+        sharedPreferences = getSharedPreferences("Link-Organizer", 0); // 0 - for private mode
+        sharedPreferencesEditor = sharedPreferences.edit();
 
-        Log.i("DATABASE URL","/data/data/" + getPackageName() + "/databases/LinkOrganizer");
+        root = (MotionLayout) findViewById(R.id.root);
 
         root.transitionToEnd();
 
@@ -91,8 +98,11 @@ public class MainActivity extends AppCompatActivity {
         noFoldersMessage = (TextView) findViewById(R.id.noFoldersMessage);
 
         moreOptionButton = (FloatingActionButton) findViewById(R.id.moreOptionButton);
-        moreOptionButton.setVisibility(View.GONE);
+        //moreOptionButton.setVisibility(View.GONE);
         settingBox = (ConstraintLayout) findViewById(R.id.settingsBox);
+
+        folderBackground = (CardView) findViewById(R.id.folder_background);
+        folderBookmark = (CardView) findViewById(R.id.folder_bookmark);
 
         databaseHandler = new DatabaseHandler(MainActivity.this);
         folders = (LinkedList<Folder>) databaseHandler.getAllFolders();
@@ -102,21 +112,23 @@ public class MainActivity extends AppCompatActivity {
             noFoldersMessage.setVisibility(View.VISIBLE);
         }
 
+        refreshFolderColor(getCurrentFolderColor(getApplicationContext()));
+
         checkPermissions();
 
-        adapter = new FolderAdapter(this,folders);
+        adapter = new FolderAdapter(MainActivity.this,folders);
 
         foldersGridRecyclerView.setAdapter(adapter);
         foldersGridRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,2) );
         foldersGridRecyclerView.setNestedScrollingEnabled(false);
 
-        settingsDialog = SettingsDialog.newInstance();
+        settingsDialog = new SettingsDialog(MainActivity.this);
 
         moreOptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                settingsDialog.show(getSupportFragmentManager(),"");
+                settingsDialog.show(getSupportFragmentManager(),"SettingsDialog");
             }
         });
 
@@ -186,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshDatabase(){
         folders = (LinkedList<Folder>) databaseHandler.getAllFolders();
-        adapter = new FolderAdapter(this,folders);
+        adapter = new FolderAdapter(MainActivity.this,folders);
 
         if (folders.size() != 0){
             noFoldersMessage.setVisibility(View.GONE);
@@ -338,16 +350,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        refreshFolders(MainActivity.this);
+    }
+
+    public static void refreshFolders(Context context){
         LinkedList<Folder> foldersNew = databaseHandler.getAllFolders();
         if (!areTheSameLists(foldersNew,folders)){
             folders = foldersNew;
-            adapter = new FolderAdapter(MainActivity.this,folders);
+            adapter = new FolderAdapter(context,folders);
             foldersGridRecyclerView.setAdapter(adapter);
-            Log.i("LMAO","OK");
         }
     }
 
-    public boolean areTheSameLists(List<?> list1,List<?> list2){
+    public static boolean areTheSameLists(List<?> list1, List<?> list2){
         if (list1.size() != list2.size()) return false;
 
         for (int i = 0; i < list1.size(); i++) {
@@ -355,6 +370,35 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public static int getCurrentFolderColor(Context context){
+        return sharedPreferences.getInt("folder_color",ContextCompat.getColor(context, R.color.blue));
+    }
+
+    public static void setCurrentFolderColor(Context context,int res){
+        sharedPreferencesEditor.putInt("folder_color",res);
+        sharedPreferencesEditor.commit();
+        // when color changes
+        refreshFolders(context);
+        refreshFolderColor(res);
+    }
+
+    public static void refreshFolderColor(int color){
+        folderBackground.setCardBackgroundColor(color);
+        folderBookmark.setCardBackgroundColor(lighten(color,.85F));
+    }
+
+    public static int lighten(int color, float factor) {
+        int a = Color.alpha( color );
+        int r = Color.red( color );
+        int g = Color.green( color );
+        int b = Color.blue( color );
+
+        return Color.argb( a,
+                Math.max( (int)(r * factor), 0 ),
+                Math.max( (int)(g * factor), 0 ),
+                Math.max( (int)(b * factor), 0 ) );
     }
 
     @Override

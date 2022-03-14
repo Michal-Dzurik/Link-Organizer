@@ -1,11 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorPrimaryVariant">
+    android:background="@drawable/color_palette_background"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:paddingVertical="15dp"
+        android:paddingLeft="5dp"
+        android:text="@string/select_folders_color"/>
+
+    <GridView
+        android:id="@+id/color_grid"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:numColumns="4"
+        android:fadingEdge="none"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:soundEffectsEnabled="true"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp"/>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right">
+
+        <Button
+            android:id="@+id/positiveButton"
+            android:text="@string/ok"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/negativeButton"
+            android:text="@string/cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

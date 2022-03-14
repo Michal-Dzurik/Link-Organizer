@@ -56,7 +56,7 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.getTitle().setText(links.get(position).getName());
         holder.getDescription().setText(links.get(position).getDescription() == null ? "" : links.get(position).getDescription() );
-        holder.getColorCircle().setCardBackgroundColor(getRandomColor());
+        holder.getColorCircle().setCardBackgroundColor(FolderContentActivity.getCurrentFolderColor(context));;
         holder.setLink(links.get(position));
         holder.setEditButtonOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +136,7 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
                     Log.i("Links Name",link.getName());
                     Log.i("Links Href",link.getHref());
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(link.getHref()));
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
 
                 }

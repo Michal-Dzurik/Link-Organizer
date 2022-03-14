@@ -49,6 +49,10 @@
     <string name="operation_unsuccessful">Operation unsuccessful</string>
     <string name="you_havent_changed_anything">You haven\'t changed anything</string>
     <string name="folder_edited_successfully">Folder edited successfully</string>
+    <string name="select_folders_color">Select folders color</string>
+    <string name="ok">OK</string>
+    <string name="folder_color">Folder Color</string>
+    <string name="To_apply_folder_color_change_you_need_to_restart_the_app">To apply folder color change you need to restart the app</string>
 
     <string-array name="sort">
         <item>@string/none</item>

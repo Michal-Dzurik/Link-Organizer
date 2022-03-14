@@ -1,13 +1,16 @@
 package sk.po.spse.dzurikm.linkorganizer.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -41,7 +44,7 @@ import sk.po.spse.dzurikm.linkorganizer.adapters.LinkAdapter;
 import sk.po.spse.dzurikm.linkorganizer.heandlers.DatabaseHandler;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
-import sk.po.spse.dzurikm.linkorganizer.views.OnPositiveButtonClick;
+import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnPositiveButtonClick;
 import sk.po.spse.dzurikm.linkorganizer.views.FilterDialog;
 
 public class FolderContentActivity extends AppCompatActivity {
@@ -58,14 +61,23 @@ public class FolderContentActivity extends AppCompatActivity {
     private static EditText linkNameInput,linkDescriptionInput,linkHrefInput,searchLinkInput;
     private LinearLayout searchLinkBox;
     private FloatingActionButton filterButton;
+    private CardView linkCircle;
 
     private final int MAX_LINK_NAME_LENGTH = 30;
     private final int MAX_LINK_DESCRIPTION_LENGTH = 35;
+
+    public static SharedPreferences sharedPreferences;
+    public static SharedPreferences.Editor sharedPreferencesEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder_content_layout);
+
+        sharedPreferences = getSharedPreferences("Link-Organizer", 0); // 0 - for private mode
+        sharedPreferencesEditor = sharedPreferences.edit();
+
 
         databaseHandler = new DatabaseHandler(FolderContentActivity.this);
 
@@ -88,19 +100,21 @@ public class FolderContentActivity extends AppCompatActivity {
         searchLinkBox = (LinearLayout) findViewById(R.id.link_search_bar);
 
         filterButton = (FloatingActionButton) findViewById(R.id.filterButton);
+        linkCircle = (CardView) findViewById(R.id.colorCircle);
 
         Bundle bundle = getIntent().getExtras();
         folderId = bundle.getInt("folder_id");
 
-        headingView.setText(databaseHandler.getFolder(folderId).getName());
+        linkCircle.setCardBackgroundColor(getCurrentFolderColor(getApplicationContext()));
 
+        headingView.setText(databaseHandler.getFolder(folderId).getName());
 
         links = databaseHandler.getAllLinks(folderId);
         originalLinks = links;
         if (links.size() != 0){
             linkAdapter = new LinkAdapter(FolderContentActivity.this,links);
             linkRecyclerView.setAdapter(linkAdapter);
-            linkRecyclerView.setLayoutManager(new LinearLayoutManager(FolderContentActivity.this));
+            linkRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         }
 
 
@@ -308,6 +322,9 @@ public class FolderContentActivity extends AppCompatActivity {
         });
 
 
+    }
+    public static int getCurrentFolderColor(Context context){
+        return sharedPreferences.getInt("folder_color", ContextCompat.getColor(context, R.color.blue));
     }
 
     public String deAccent(String str) {

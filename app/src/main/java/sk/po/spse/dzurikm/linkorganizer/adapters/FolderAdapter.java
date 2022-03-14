@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -53,14 +54,14 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getFolderName().setText(folders.get(position).getName());
         holder.getFolderDescription().setText(folders.get(position).getDescription());
+        holder.getFolderBackground().setCardBackgroundColor(MainActivity.getCurrentFolderColor(context));
+        holder.getFolderBookmark().setCardBackgroundColor(MainActivity.lighten(MainActivity.getCurrentFolderColor(context), 0.85F));
 
         if (originalSizeOfAdapter == position){
             rootView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_in_bottom));
             originalSizeOfAdapter = position + 1;
         }
     }
-
-
 
     // total number of rows
     @Override
@@ -72,6 +73,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
         Intent i = new Intent(context, FolderContentActivity.class);
         i.putExtra("folder_id",folders.get(index).getId());
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         context.startActivity(i);
         ((Activity) context).overridePendingTransition(R.anim.slide_in_enter_front,R.anim.slide_in_enter_back);
@@ -103,6 +105,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView folderName,folderDescription;
+        CardView folderBackground,folderBookmark;
 
         ViewHolder(View view) {
             super(view);
@@ -135,6 +138,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
                 public void onClick(View view) {
                     Intent i = new Intent(context, FolderContentActivity.class);
                     i.putExtra("folder_id",folders.get(getAdapterPosition()).getId());
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     context.startActivity(i);
                     ((Activity) context).overridePendingTransition(R.anim.slide_in_enter_front,R.anim.slide_in_enter_back);
@@ -143,7 +147,25 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
 
             folderName = (TextView) view.findViewById(R.id.folder_name);
             folderDescription = (TextView) view.findViewById(R.id.folder_description);
+            folderBackground = (CardView) view.findViewById(R.id.folder_background);
+            folderBookmark = (CardView) view.findViewById(R.id.folder_bookmark);
 
+        }
+
+        public CardView getFolderBookmark() {
+            return folderBookmark;
+        }
+
+        public void setFolderBookmark(CardView folderBookmark) {
+            this.folderBookmark = folderBookmark;
+        }
+
+        public CardView getFolderBackground() {
+            return folderBackground;
+        }
+
+        public void setFolderBackground(CardView folderBackground) {
+            this.folderBackground = folderBackground;
         }
 
         public TextView getFolderDescription() {

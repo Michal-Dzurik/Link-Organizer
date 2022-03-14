@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
+import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnPositiveButtonClick;
 
 public class FilterDialog extends Dialog {
 

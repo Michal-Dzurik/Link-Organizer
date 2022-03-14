@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="red">#B32D2D</color>
+    <color name="green">#2AAC2A</color>
+    <color name="blue">#2885CC</color>
+    <color name="purple">#582AC6</color>
+    <color name="pink">#C602FF</color>
+    <color name="orange">#E45715</color>
+    <color name="yellow">#AA7405</color>
+    <color name="brown">#AE3E02</color>
+
+    <integer-array name="color_palette_values">
+        <item>@color/blue</item>
+        <item>@color/green</item>
+        <item>@color/red</item>
+        <item>@color/purple</item>
+        <item>@color/pink</item>
+        <item>@color/orange</item>
+        <item>@color/yellow</item>
+        <item>@color/brown</item>
+    </integer-array>
+
+    <string-array name="color_palette_keys">
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Red</item>
+        <item>Purple</item>
+        <item>Pink</item>
+        <item>Orange</item>
+        <item>Yellow</item>
+        <item>Olive</item>
+    </string-array>
+</resources>
