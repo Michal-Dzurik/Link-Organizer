@@ -22,7 +22,7 @@ import sk.po.spse.dzurikm.linkorganizer.models.ColorSet;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnPositiveButtonClick;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnSelectChanged;
 
-public class ColorPicker extends DialogFragment {
+public class ColorPickerDialog extends DialogFragment {
     private View rootView;
     int[] colorNumberArray;
     String[] colorNameArray;
@@ -34,7 +34,7 @@ public class ColorPicker extends DialogFragment {
 
     GridView color_grid;
 
-    public ColorPicker(Context context) {
+    public ColorPickerDialog(Context context) {
         this.context = context;
     }
 
@@ -44,7 +44,7 @@ public class ColorPicker extends DialogFragment {
         super.setupDialog(dialog,style);
         rootView = View.inflate(getContext(), R.layout.color_picker_dialog_layput, null);
         dialog.setContentView(rootView);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         positiveButton = dialog.findViewById(R.id.positiveButton);
         negativeButton = dialog.findViewById(R.id.negativeButton);

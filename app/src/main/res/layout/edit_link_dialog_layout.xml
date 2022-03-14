@@ -69,6 +69,7 @@
 
                         <EditText
                             android:id="@+id/linkName"
+                            android:textColorHint="?attr/colorOnPrimary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
@@ -78,6 +79,7 @@
 
                         <EditText
                             android:id="@+id/linkDescription"
+                            android:textColorHint="?attr/colorOnPrimary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
@@ -90,6 +92,7 @@
                 </LinearLayout>
 
                 <EditText
+                    android:textColorHint="?attr/colorOnPrimary"
                     android:id="@+id/linkHref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

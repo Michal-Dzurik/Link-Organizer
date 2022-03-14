@@ -27,9 +27,11 @@
             android:gravity="right">
 
             <Spinner
+                android:layout_marginLeft="10dp"
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:backgroundTint="?attr/colorOnPrimary" />
         </LinearLayout>
 
     </LinearLayout>

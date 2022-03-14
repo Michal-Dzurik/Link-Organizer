@@ -34,6 +34,7 @@ public class BackupDialog extends Dialog {
         setContentView(R.layout.backup_dialog_layout);
 
         this.getWindow().setDimAmount(.5f);
+        this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         backupButton = (ImageButton) findViewById(R.id.exportDatabaseButton);
         importButton = (ImageButton) findViewById(R.id.importDatabaseButton);
@@ -47,6 +48,7 @@ public class BackupDialog extends Dialog {
                     i.addCategory(Intent.CATEGORY_DEFAULT);
                     i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     i.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+
                     ((MainActivity) context).startActivityForResult(Intent.createChooser(i, "Choose directory"), 9999);
                 }
             }

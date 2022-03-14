@@ -9,13 +9,11 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
-import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class SettingsDialog extends BottomSheetDialogFragment {
     private static CardView colorPickerButton;
@@ -25,8 +23,8 @@ public class SettingsDialog extends BottomSheetDialogFragment {
 
     public SettingsDialog(Context context) {
         this.context = context;
+        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.SettingsDialog);
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +32,7 @@ public class SettingsDialog extends BottomSheetDialogFragment {
     }
 
     private void openColorPicker(){
-        ColorPicker picker = new ColorPicker(getContext());
+        ColorPickerDialog picker = new ColorPickerDialog(getContext());
         picker.show(getParentFragmentManager(),"ColorPicker");
 
     }
@@ -46,7 +44,8 @@ public class SettingsDialog extends BottomSheetDialogFragment {
         rootView = View.inflate(getContext(), R.layout.settings_dialog_layput, null);
         dialog.setContentView(rootView);
 
-        //dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
+
+        ((View) rootView.getParent()).setBackgroundColor(Color.TRANSPARENT);
         dialog.getWindow().setDimAmount(0.0f);
 
         colorPickerButton = (CardView) rootView.findViewById(R.id.folderColorPickerButton);

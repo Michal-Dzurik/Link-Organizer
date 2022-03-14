@@ -2,6 +2,8 @@ package sk.po.spse.dzurikm.linkorganizer.views;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -36,6 +38,7 @@ public class FilterDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.filter_dialog_layout);
 
+        this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         this.getWindow().setDimAmount(.5f);
 
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -44,10 +47,9 @@ public class FilterDialog extends Dialog {
 
         String[] paths = context.getResources().getStringArray(R.array.sort);
 
-        ArrayAdapter<String>adapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_spinner_item,paths);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,paths);
+        adapter.setDropDownViewResource(R.layout.spinner_item_layout);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
