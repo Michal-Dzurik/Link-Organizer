@@ -7,9 +7,9 @@
     <string name="Delete_Item">Vymazať položku</string>
     <string name="Do_you_really_want_to_delete">Ste si istý, že chcete vymazať </string>
     <string name="Folder">Priečinok</string>
-    <string name="was_removed_successfully">bol vymazaný úspešne</string>
+    <string name="was_removed_successfully"> bol vymazaný úspešne</string>
     <string name="You_didnt_fill_up_everything">Nevyplnili ste všetko potrebné</string>
-    <string name="wasnt_created">nebol vytvorený</string>
+    <string name="wasnt_created"> nebol vytvorený</string>
     <string name="links">Odkazy</string>
     <string name="there_are_no_links_in_this_folder_yet">V priečinku zatiaľ nie sú žiadne odkazy</string>
     <string name="there_are_no_folders_in_here_yet">Žiadny priečinok neexistuje</string>

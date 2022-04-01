@@ -7,9 +7,9 @@
     <string name="Delete_Item">Delete Item</string>
     <string name="Do_you_really_want_to_delete">Do you really want to delete </string>
     <string name="Folder">Folder</string>
-    <string name="was_removed_successfully">was removed successfully</string>
+    <string name="was_removed_successfully"> was removed successfully</string>
     <string name="You_didnt_fill_up_everything">You didn\'t fill up everything</string>
-    <string name="wasnt_created">wasn\'t created</string>
+    <string name="wasnt_created"> wasn\'t created</string>
     <string name="links">Links</string>
     <string name="there_are_no_links_in_this_folder_yet">There are no links in this folder yet</string>
     <string name="there_are_no_folders_in_here_yet">There are no folders in here yet</string>

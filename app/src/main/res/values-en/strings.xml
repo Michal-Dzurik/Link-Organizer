@@ -7,9 +7,9 @@
     <string name="Delete_Item">Delete Item</string>
     <string name="Do_you_really_want_to_delete">Do you really want to delete </string>
     <string name="Folder">Folder</string>
-    <string name="was_removed_successfully">was removed successfully</string>
+    <string name="was_removed_successfully"> was removed successfully</string>
     <string name="You_didnt_fill_up_everything">You didn\'t fill up everything</string>
-    <string name="wasnt_created">wasn\'t created</string>
+    <string name="wasnt_created"> wasn\'t created</string>
     <string name="links">Links</string>
     <string name="there_are_no_links_in_this_folder_yet">There are no links in this folder yet</string>
     <string name="there_are_no_folders_in_here_yet">There are no folders in here yet</string>
@@ -27,8 +27,8 @@
     <string name="url_is_not_valid">URL is not valid</string>
     <string name="folder_is_not_valid">Folder is not valid</string>
     <string name="file_is_not_valid">File is not valid</string>
-    <string name="you_havent_chosen_any_folder">You haven\'t chosen any folder</string>
-    <string name="you_havent_chosen_any_file">You haven\'t chosen any file</string>
+    <string name="you_havent_chosen_any_folder">You haven\'t choose any folder</string>
+    <string name="you_havent_chosen_any_file">You haven\'t choose any file</string>
     <string name="export_was_unsuccessful">Export was unsuccessful</string>
     <string name="import_was_unsuccessful">Import was unsuccessful</string>
     <string name="site_is_not_supported">Site is not supported</string>
@@ -44,13 +44,14 @@
     <string name="by_name_desc">By name DESC (z-a)</string>
     <string name="by_description_asc">By description ASC (a-z)</string>
     <string name="by_description_desc">By description DESC (z-a)</string>
+
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="operation_unsuccessful">Operation unsuccessful</string>
     <string name="you_havent_changed_anything">You haven\'t changed anything</string>
     <string name="folder_edited_successfully">Folder edited successfully</string>
-    <string name="select_folders_color">Select folders color</string>
     <string name="ok">OK</string>
+    <string name="select_folders_color">Select folders color</string>
     <string name="folder_color">Folder Color</string>
     <string name="To_apply_folder_color_change_you_need_to_restart_the_app">To apply folder color change you need to restart the app</string>
 

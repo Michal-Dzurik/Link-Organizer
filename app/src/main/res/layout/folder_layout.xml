@@ -18,7 +18,8 @@
         android:layout_marginTop="-10dp"
         android:layout_marginLeft="10dp"
         android:background="@color/transparent"
-        app:cardBackgroundColor="@color/blue_lighter"/>
+        app:cardBackgroundColor="@color/blue_lighter"
+        tools:cardElevation="0dp"/>
 
     <androidx.cardview.widget.CardView
         android:layout_marginTop="10dp"
@@ -31,7 +32,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:cardElevation="0dp">
 
 
         <LinearLayout
