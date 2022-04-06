@@ -1,6 +1,7 @@
 package sk.po.spse.dzurikm.linkorganizer.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,31 +15,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
-import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.views.ColorPickerDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.EditLinkDialog;
+import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
-    private int[] colors = new int[]{R.color.blue, R.color.grey,R.color.red,R.color.green,R.color.yellow,R.color.orange,R.color.pink};
-
     private List<Link> links;
     private LayoutInflater inflater;
     private Context context;
     private int originalSizeOfAdapter;
+    private FragmentManager fragmentManager;
     // data is passed into the constructor
-    public LinkAdapter(Context context, List<Link> links) {
+    public LinkAdapter(Context context, FragmentManager fragmentManager, List<Link> links) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
         this.inflater = LayoutInflater.from(context);
         this.links = links;
         this.originalSizeOfAdapter = links.size();
@@ -56,13 +58,33 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.getTitle().setText(links.get(position).getName());
         holder.getDescription().setText(links.get(position).getDescription() == null ? "" : links.get(position).getDescription() );
-        holder.getColorCircle().setCardBackgroundColor(FolderContentActivity.getCurrentFolderColor(context));;
+        if (links.get(position).getColorId() != -1) holder.getColorCircle().setCardBackgroundColor(links.get(position).getColorId());
+            else holder.getColorCircle().setCardBackgroundColor(FolderContentActivity.getCurrentFolderColor(context));
         holder.setLink(links.get(position));
         holder.setEditButtonOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditLinkDialog dialog = new EditLinkDialog(context, links.get(position),30,35);
+                EditLinkDialog dialog = new EditLinkDialog(context,fragmentManager, links.get(position),30,35);
                 dialog.show();
+            }
+        });
+
+        holder.getColorCircle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorPickerDialog colorPickerDialog = new ColorPickerDialog(context,context.getString(R.string.select_link_color));
+                colorPickerDialog.setOnPickColorListener(new OnColorPickedListener() {
+                    @Override
+                    public void colorPicked(int color) {
+                        // Color is picked
+                        Log.d("COLOR PICKED",String.valueOf(color));
+                        Link link = links.get(position);
+                        link.setColorId(color);
+                        FolderContentActivity.editLink(link);
+                    }
+                });
+
+                colorPickerDialog.show(fragmentManager,"Tag");
             }
         });
 
@@ -73,20 +95,11 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
 
     }
 
-    public float convertDpToPixel(float dp){
-        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-    }
-
 
     // total number of rows
     @Override
     public int getItemCount() {
         return links.size();
-    }
-
-    @SuppressLint("ResourceType")
-    private int getRandomColor(){
-        return Color.parseColor(context.getString(R.color.blue));
     }
 
 
@@ -109,7 +122,7 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    AlertDialog dialog = new AlertDialog.Builder(context)
+                    AlertDialog dialog = new AlertDialog.Builder(context,R.style.AlertDialog)
                             .setTitle(context.getString(R.string.Delete_Item))
                             .setMessage(context.getString(R.string.Do_you_really_want_to_delete) + " " + title.getText().toString() + " " + context.getString(R.string.Link))
                             .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {

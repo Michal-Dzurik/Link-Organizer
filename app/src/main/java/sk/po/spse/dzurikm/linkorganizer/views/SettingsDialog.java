@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
+import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class SettingsDialog extends BottomSheetDialogFragment {
     private static CardView colorPickerButton;
@@ -33,6 +34,14 @@ public class SettingsDialog extends BottomSheetDialogFragment {
 
     private void openColorPicker(){
         ColorPickerDialog picker = new ColorPickerDialog(getContext());
+        picker.setOnPickColorListener(new OnColorPickedListener() {
+            @Override
+            public void colorPicked(int color) {
+                MainActivity.setCurrentFolderColor(context,color);
+                //Toast.makeText(getContext(), getContext().getString(R.string.To_apply_folder_color_change_you_need_to_restart_the_app),Toast.LENGTH_SHORT).show();
+                SettingsDialog.refreshSelectedColor(context,color);
+            }
+        });
         picker.show(getParentFragmentManager(),"ColorPicker");
 
     }

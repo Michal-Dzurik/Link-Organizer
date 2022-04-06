@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -15,29 +16,36 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import java.net.URL;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class EditLinkDialog extends Dialog {
     private Button positiveButton,negativeButton;
     private EditText nameInput,descriptionInput,hrefInput;
     private Link link;
+    private CardView colorCircle;
 
     private Context context;
+    private FragmentManager fragmentManager;
 
     private int MAX_LINK_NAME_LENGTH = 30;
     private int MAX_LINK_DESCRIPTION_LENGTH = 35;
 
-    public EditLinkDialog(@NonNull Context context, Link link,int MAX_LINK_NAME_LENGTH,int MAX_LINK_DESCRIPTION_LENGTH) {
+    public EditLinkDialog(@NonNull Context context, FragmentManager fragmentManager, Link link, int MAX_LINK_NAME_LENGTH, int MAX_LINK_DESCRIPTION_LENGTH) {
         super(context);
         this.link = link;
         this.context = context;
         this.MAX_LINK_NAME_LENGTH = MAX_LINK_NAME_LENGTH;
         this.MAX_LINK_DESCRIPTION_LENGTH = MAX_LINK_DESCRIPTION_LENGTH;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -56,10 +64,13 @@ public class EditLinkDialog extends Dialog {
         nameInput = (EditText) findViewById(R.id.linkName);
         descriptionInput = (EditText) findViewById(R.id.linkDescription);
         hrefInput = (EditText) findViewById(R.id.linkHref);
+        colorCircle = (CardView) findViewById(R.id.colorCircle);
 
         nameInput.setText(link.getName());
         descriptionInput.setText(link.getDescription());
         hrefInput.setText(link.getHref());
+        if (link.getColorId() != -1) colorCircle.setCardBackgroundColor(link.getColorId());
+        else colorCircle.setCardBackgroundColor(FolderContentActivity.getCurrentFolderColor(context));
 
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +84,7 @@ public class EditLinkDialog extends Dialog {
                     link.setName(name);
                     link.setDescription(description);
                     link.setHref(href);
+                    link.setColorId(colorCircle.getCardBackgroundColor().getDefaultColor());
 
                     FolderContentActivity.editLink(link);
                 }
@@ -83,6 +95,22 @@ public class EditLinkDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 EditLinkDialog.this.dismiss();
+            }
+        });
+
+        colorCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorPickerDialog colorPickerDialog = new ColorPickerDialog(context,context.getString(R.string.select_link_color));
+                colorPickerDialog.setOnPickColorListener(new OnColorPickedListener() {
+                    @Override
+                    public void colorPicked(int color) {
+                        // Color is picked
+                        Log.d("COLOR PICKED",String.valueOf(color));
+                        colorCircle.setCardBackgroundColor(color);
+                    }
+                });
+                colorPickerDialog.show(fragmentManager,"ColorPicker");
             }
         });
 

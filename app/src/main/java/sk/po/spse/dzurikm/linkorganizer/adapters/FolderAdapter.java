@@ -1,5 +1,6 @@
 package sk.po.spse.dzurikm.linkorganizer.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,7 +25,7 @@ import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
 import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
 
-public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder> implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder> implements AdapterView.OnItemClickListener {
     private Context context;
     private List<String> mData;
     private LinkedList<Folder> folders;
@@ -54,8 +55,16 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getFolderName().setText(folders.get(position).getName());
         holder.getFolderDescription().setText(folders.get(position).getDescription());
-        holder.getFolderBackground().setCardBackgroundColor(MainActivity.getCurrentFolderColor(context));
-        holder.getFolderBookmark().setCardBackgroundColor(MainActivity.lighten(MainActivity.getCurrentFolderColor(context), 0.85F));
+        if (folders.get(position).getColorId() != -1) {
+            holder.getFolderBackground().setCardBackgroundColor(folders.get(position).getColorId());
+            holder.getFolderBookmark().setCardBackgroundColor(MainActivity.lighten(folders.get(position).getColorId(), 0.85F));
+        }
+        else {
+            holder.getFolderBackground().setCardBackgroundColor(MainActivity.getCurrentFolderColor(context));
+            holder.getFolderBookmark().setCardBackgroundColor(MainActivity.lighten(MainActivity.getCurrentFolderColor(context), 0.85F));
+        }
+
+
 
         if (originalSizeOfAdapter == position){
             rootView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_in_bottom));
@@ -79,28 +88,6 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
         ((Activity) context).overridePendingTransition(R.anim.slide_in_enter_front,R.anim.slide_in_enter_back);
     }
 
-    @Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int index, long l) {
-        new AlertDialog.Builder(context)
-                .setTitle(context.getString(R.string.Delete_Item))
-                .setMessage(context.getString(R.string.Do_you_really_want_to_delete) + " " + folders.get(index).getName() + " " + context.getString(R.string.Folder))
-                .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        MainActivity.removeFolder(context,folders.get(index),view);
-                    }
-                })
-                .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .show();
-
-        return false;
-    }
-
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -113,7 +100,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    new AlertDialog.Builder(context)
+                    new AlertDialog.Builder(context,R.style.AlertDialog)
                             .setTitle(context.getString(R.string.Delete_Item))
                             .setMessage(context.getString(R.string.Do_you_really_want_to_delete) + " " + folders.get(getAdapterPosition()).getName() + " " + context.getString(R.string.Folder))
                             .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {

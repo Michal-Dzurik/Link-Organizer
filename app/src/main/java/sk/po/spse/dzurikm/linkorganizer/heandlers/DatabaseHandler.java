@@ -1,8 +1,6 @@
 package sk.po.spse.dzurikm.linkorganizer.heandlers;
 
 import android.annotation.SuppressLint;
-import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,11 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Build;
-import android.os.CancellationSignal;
-import android.os.Environment;
-import android.os.ParcelFileDescriptor;
-import android.os.RemoteException;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -24,8 +17,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.LinkedList;
 
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
@@ -40,20 +31,46 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "LinkOrganizer";
+
+    // Tables
     private static final String TABLE_FOLDERS = "folders";
+    private static final String TABLE_LINK = "links";
+
+    // Table Columns
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_DESCRIPTION = "description";
-    private static final String TABLE_LINK = "links";
     private static final String KEY_FOLDER_ID = "folder_id";
     private static final String KEY_HREF = "href";
+    private static final String KEY_COLOR_ID = "color_id";
 
     private static Context context;
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        Log.d("DATABASE","INITIAL");
+        backwardsCompatibility();
         //3rd argument to be passed is CursorFactory instance
+    }
+
+    public void backwardsCompatibility(){
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor cursor = db.query(TABLE_FOLDERS, new String[] { KEY_COLOR_ID }, null,
+                   null, null, null, null, null);
+            Log.d("EXPORT","DON'T EXTEND TABLES");
+        }
+        catch (Exception e){
+            // TODO: tu urob aby rozsirilo tabulky , to je pripad kedy jednoducho nedokaze zobrat veci z db lebo tam nie je stplec
+            String ALTER_LINK_TABLE = "ALTER TABLE " + TABLE_LINK + " ADD " + KEY_COLOR_ID + " INTEGER DEFAULT -1";
+            String ALTER_FOLDER_TABLE = "ALTER TABLE " + TABLE_FOLDERS + " ADD " + KEY_COLOR_ID + " INTEGER DEFAULT -1";
+            getWritableDatabase().execSQL(ALTER_LINK_TABLE);
+            getWritableDatabase().execSQL(ALTER_FOLDER_TABLE);
+
+            Log.d("EXPORT","EXTEND TABLES");
+        }
     }
 
     // Creating Tables
@@ -61,10 +78,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_FOLDERS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_DESCRIPTION + " TEXT" + ")";
+                + KEY_DESCRIPTION + " TEXT" + "," + KEY_COLOR_ID + " INTEGER DEFAULT -1)";
         String CREATE_LINKS_TABLE = "CREATE TABLE " + TABLE_LINK + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_DESCRIPTION + " TEXT" + "," + KEY_HREF + " TEXT," + KEY_FOLDER_ID + " INTEGER)";
+                + KEY_DESCRIPTION + " TEXT" + "," + KEY_HREF + " TEXT," + KEY_FOLDER_ID + " INTEGER, " + KEY_COLOR_ID + " INTEGER DEFAULT -1)";
 
         db.execSQL(CREATE_CONTACTS_TABLE);
         db.execSQL(CREATE_LINKS_TABLE);
@@ -88,6 +105,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, folder.getName()); // Contact Name
         values.put(KEY_DESCRIPTION, folder.getDescription()); // Contact Phone
+        values.put(KEY_COLOR_ID,folder.getColorId()); // Folder Color ID
 
         // Inserting Row
         int id = (int) db.insert(TABLE_FOLDERS, null, values);
@@ -103,8 +121,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, link.getName()); // Link Name
         values.put(KEY_DESCRIPTION, link.getDescription()); // Link description
-        values.put(KEY_FOLDER_ID, link.getFolder_id()); // Link id link is in
+        values.put(KEY_FOLDER_ID, link.getFolderId()); // Link id link is in
         values.put(KEY_HREF,link.getHref());
+        values.put(KEY_COLOR_ID,link.getColorId());
 
         // Inserting Row
         int id = (int) db.insert(TABLE_LINK, null, values);
@@ -119,26 +138,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_FOLDERS, new String[] { KEY_ID,
-                        KEY_NAME, KEY_DESCRIPTION }, KEY_ID + "=?",
+                        KEY_NAME, KEY_DESCRIPTION,KEY_COLOR_ID }, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        @SuppressLint("Range") Folder folder = new Folder(cursor.getInt(cursor.getColumnIndex(KEY_ID)),cursor.getString(cursor.getColumnIndex(KEY_NAME)),cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+        @SuppressLint("Range") Folder folder = new Folder(cursor.getInt(cursor.getColumnIndex(KEY_ID)),
+                cursor.getString(cursor.getColumnIndex(KEY_NAME)),
+                cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
+                cursor.getInt(cursor.getColumnIndex(KEY_COLOR_ID)));
         // return contact
         return folder;
     }
 
+    @SuppressLint("Range")
     public Link getLink(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_LINK, new String[] { KEY_ID,
-                        KEY_NAME, KEY_DESCRIPTION, KEY_FOLDER_ID}, KEY_ID + "=?",
+                        KEY_NAME, KEY_DESCRIPTION, KEY_FOLDER_ID,KEY_COLOR_ID}, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        @SuppressLint("Range") Link link = new Link(cursor.getInt(cursor.getColumnIndex(KEY_ID)),cursor.getString(cursor.getColumnIndex(KEY_NAME)),cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),cursor.getInt(cursor.getColumnIndex(KEY_FOLDER_ID)));
+        Link link = new Link(cursor.getInt(cursor.getColumnIndex(KEY_ID)),
+                cursor.getString(cursor.getColumnIndex(KEY_NAME)),
+                cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
+                cursor.getInt(cursor.getColumnIndex(KEY_FOLDER_ID)));
+        link.setColorId(cursor.getInt(cursor.getColumnIndex(KEY_COLOR_ID)));
         // return contact
         return link;
     }
@@ -160,6 +187,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 folder.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KEY_ID))));
                 folder.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
                 folder.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                folder.setColorId(cursor.getInt(cursor.getColumnIndex(KEY_COLOR_ID)));
                 // Adding contact to list
                 folderList.add(folder);
             } while (cursor.moveToNext());
@@ -186,7 +214,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 link.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
                 link.setHref(cursor.getString(cursor.getColumnIndex(KEY_HREF)));
                 link.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
-                link.setFolder_id(cursor.getInt(cursor.getColumnIndex(KEY_FOLDER_ID)));
+                link.setFolderId(cursor.getInt(cursor.getColumnIndex(KEY_FOLDER_ID)));
+                link.setColorId(cursor.getInt(cursor.getColumnIndex(KEY_COLOR_ID)));
                 // Adding contact to list
                 linkList.add(link);
             } while (cursor.moveToNext());
@@ -203,6 +232,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, folder.getName());
         values.put(KEY_DESCRIPTION, folder.getDescription());
+        values.put(KEY_COLOR_ID,folder.getColorId());
 
         // updating row
         return db.update(TABLE_FOLDERS, values, KEY_ID + " = ?",
@@ -216,7 +246,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_NAME, link.getName());
         values.put(KEY_DESCRIPTION, link.getDescription());
         values.put(KEY_HREF,link.getHref());
-        values.put(KEY_FOLDER_ID,link.getFolder_id());
+        values.put(KEY_FOLDER_ID,link.getFolderId());
+        values.put(KEY_COLOR_ID,link.getColorId());
 
         // updating row
         return db.update(TABLE_LINK, values, KEY_ID + " = ?",
@@ -285,6 +316,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             // Access the copied database so SQLiteHelper will cache it and mark
             // it as created.
             getWritableDatabase().close();
+            backwardsCompatibility();
             return true;
         }
 
@@ -314,6 +346,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             // Access the copied database so SQLiteHelper will cache it and mark
             // it as created.
             getWritableDatabase().close();
+
             return true;
         }
 

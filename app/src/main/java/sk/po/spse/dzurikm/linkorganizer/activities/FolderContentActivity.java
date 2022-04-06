@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -44,6 +45,8 @@ import sk.po.spse.dzurikm.linkorganizer.adapters.LinkAdapter;
 import sk.po.spse.dzurikm.linkorganizer.heandlers.DatabaseHandler;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.views.ColorPickerDialog;
+import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnPositiveButtonClick;
 import sk.po.spse.dzurikm.linkorganizer.views.FilterDialog;
 
@@ -112,11 +115,26 @@ public class FolderContentActivity extends AppCompatActivity {
         links = databaseHandler.getAllLinks(folderId);
         originalLinks = links;
         if (links.size() != 0){
-            linkAdapter = new LinkAdapter(FolderContentActivity.this,links);
+            linkAdapter = new LinkAdapter(FolderContentActivity.this,getSupportFragmentManager(),links);
             linkRecyclerView.setAdapter(linkAdapter);
             linkRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         }
 
+        linkCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorPickerDialog colorPickerDialog = new ColorPickerDialog(FolderContentActivity.this,getString(R.string.select_link_color));
+                colorPickerDialog.setOnPickColorListener(new OnColorPickedListener() {
+                    @Override
+                    public void colorPicked(int color) {
+                        // Color is picked
+                        Log.d("COLOR PICKED",String.valueOf(color));
+                        linkCircle.setCardBackgroundColor(color);
+                    }
+                });
+                colorPickerDialog.show(getSupportFragmentManager(),"ColorPicker");
+            }
+        });
 
         headingView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +198,7 @@ public class FolderContentActivity extends AppCompatActivity {
                         linkHref = linkHrefInput.getText().toString().trim();
                 if (!linkName.equals("") && !linkHref.equals("")){
                     if (checkLinkText(linkName,linkDescription,linkHref)){
-                        addLink(linkName,linkDescription,linkHref);
+                        addLink(linkName,linkDescription,linkHref,linkCircle.getCardBackgroundColor().getDefaultColor());
                     }
                 }
                 else{
@@ -341,12 +359,12 @@ public class FolderContentActivity extends AppCompatActivity {
             }
         }
 
-        linkRecyclerView.setAdapter(new LinkAdapter(FolderContentActivity.this,filteredList));
+        linkRecyclerView.setAdapter(new LinkAdapter(FolderContentActivity.this,getSupportFragmentManager(),filteredList));
 
     }
 
     private void resetLinks(){
-        linkRecyclerView.setAdapter(new LinkAdapter(FolderContentActivity.this,links));
+        linkRecyclerView.setAdapter(new LinkAdapter(FolderContentActivity.this,getSupportFragmentManager(),links));
     }
 
     private boolean listsAreTheSame(List<?> original,List<?> newList){
@@ -395,12 +413,13 @@ public class FolderContentActivity extends AppCompatActivity {
         }
     }
 
-    private void addLink(String linkName, String linkDescription,String linkHref) {
+    private void addLink(String linkName, String linkDescription,String linkHref,int color) {
         Link link = new Link();
         link.setName(linkName);
         link.setDescription(linkDescription);
         link.setHref(linkHref);
-        link.setFolder_id(folderId);
+        link.setFolderId(folderId);
+        link.setColorId(color);
 
         int id = databaseHandler.addLink(link);
 
@@ -408,7 +427,7 @@ public class FolderContentActivity extends AppCompatActivity {
             link.setId(id);
 
             links.add(link);
-            linkAdapter = new LinkAdapter(FolderContentActivity.this,links);
+            linkAdapter = new LinkAdapter(FolderContentActivity.this,getSupportFragmentManager(),links);
             linkRecyclerView.setAdapter(linkAdapter);
             linkRecyclerView.setLayoutManager(new LinearLayoutManager(FolderContentActivity.this));
 

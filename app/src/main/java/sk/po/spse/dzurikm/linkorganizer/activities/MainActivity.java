@@ -45,13 +45,14 @@ import sk.po.spse.dzurikm.linkorganizer.adapters.FolderAdapter;
 import sk.po.spse.dzurikm.linkorganizer.heandlers.DatabaseHandler;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
 import sk.po.spse.dzurikm.linkorganizer.views.BackupDialog;
+import sk.po.spse.dzurikm.linkorganizer.views.ColorPickerDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.SettingsDialog;
+import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class MainActivity extends AppCompatActivity {
     private static RecyclerView foldersGridRecyclerView;
     private ImageButton addFolderButton,dismissAddFolderButton,approveAddFolderButton,backupButton;
     private EditText folderNameInput,folderDescriptionInput;
-    private TextView noFoldersMessage;
     private FloatingActionButton moreOptionButton;
 
     private static LinkedList<Folder> folders;
@@ -95,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
         folderNameInput = (EditText) findViewById(R.id.folderNameInput);
         folderDescriptionInput = (EditText) findViewById(R.id.folderDescriptionInput);
-        noFoldersMessage = (TextView) findViewById(R.id.noFoldersMessage);
 
         moreOptionButton = (FloatingActionButton) findViewById(R.id.moreOptionButton);
         //moreOptionButton.setVisibility(View.GONE);
@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(folders.size() == 0){
             folders = new LinkedList<Folder>();
-            noFoldersMessage.setVisibility(View.VISIBLE);
         }
 
         refreshFolderColor(getCurrentFolderColor(getApplicationContext()));
@@ -132,6 +131,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        folderBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorPickerDialog colorPickerDialog = new ColorPickerDialog(MainActivity.this,getString(R.string.select_folder_color));
+                colorPickerDialog.setOnPickColorListener(new OnColorPickedListener() {
+                    @Override
+                    public void colorPicked(int color) {
+                        // Color is picked
+                        Log.d("COLOR PICKED",String.valueOf(color));
+                        folderBackground.setCardBackgroundColor(color);
+                        folderBookmark.setCardBackgroundColor(lighten(color,.85F));
+                    }
+                });
+                colorPickerDialog.show(getSupportFragmentManager(),"ColorPicker");
+            }
+        });
 
         addFolderButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                         folderDescription = folderDescriptionInput.getText().toString().trim();
                 if (!folderName.equals("") && !folderDescription.equals("")){
                     if (checkFolderText(folderName,folderDescription)){
-                        addFolder(folderName,folderDescription);
+                        addFolder(folderName,folderDescription,folderBackground.getCardBackgroundColor().getDefaultColor());
                     }
                 }
                 else{
@@ -200,20 +215,14 @@ public class MainActivity extends AppCompatActivity {
         folders = (LinkedList<Folder>) databaseHandler.getAllFolders();
         adapter = new FolderAdapter(MainActivity.this,folders);
 
-        if (folders.size() != 0){
-            noFoldersMessage.setVisibility(View.GONE);
-        }
-        else {
-            noFoldersMessage.setVisibility(View.VISIBLE);
-        }
-
         foldersGridRecyclerView.setAdapter(adapter);
     }
 
-    private void addFolder(String folderName, String folderDescription) {
+    private void addFolder(String folderName, String folderDescription,int color) {
         Folder folder = new Folder();
         folder.setName(folderName);
         folder.setDescription(folderDescription);
+        folder.setColorId(color);
 
         int id = databaseHandler.addFolder(folder);
 
@@ -221,10 +230,6 @@ public class MainActivity extends AppCompatActivity {
             folder.setId(id);
 
             folders.add(folder);
-
-            if (folders.size() != 0){
-                noFoldersMessage.setVisibility(View.GONE);
-            }
 
             adapter.notifyDataSetChanged();
 

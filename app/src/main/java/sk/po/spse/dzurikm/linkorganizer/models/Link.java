@@ -1,30 +1,41 @@
 package sk.po.spse.dzurikm.linkorganizer.models;
 
 public class Link {
-    private int id,folder_id;
+    private int id, folderId,colorId;
     private String name,description,href;
 
-    public Link(int id, String name, String description, int folder_id) {
+    public Link(int id, String name, String description, int folderId) {
         this.id = id;
-        this.folder_id = folder_id;
+        this.folderId = folderId;
         this.name = name;
         this.description = description;
     }
 
-    public Link(int id, int folder_id, String name, String description, String href) {
+    public Link(int id, int folderId, String name, String description, String href,int colorId) {
         this.id = id;
-        this.folder_id = folder_id;
+        this.folderId = folderId;
         this.name = name;
         this.description = description;
         this.href = href;
+        this.colorId = colorId;
     }
 
     public Link(String name, String description) {
         this.name = name;
         this.description = description;
+        this.colorId = -1;
+    }
+
+    public int getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(int colorId) {
+        this.colorId = colorId;
     }
 
     public Link() {
+        this.colorId = -1;
     }
 
     public int getId() {
@@ -35,12 +46,12 @@ public class Link {
         this.id = id;
     }
 
-    public int getFolder_id() {
-        return folder_id;
+    public int getFolderId() {
+        return folderId;
     }
 
-    public void setFolder_id(int folder_id) {
-        this.folder_id = folder_id;
+    public void setFolderId(int folderId) {
+        this.folderId = folderId;
     }
 
     public String getName() {

@@ -54,6 +54,9 @@
     <string name="select_folders_color">Select folders color</string>
     <string name="folder_color">Folder Color</string>
     <string name="To_apply_folder_color_change_you_need_to_restart_the_app">To apply folder color change you need to restart the app</string>
+    <string name="select_link_color">Select link color</string>
+    <string name="default_color">Default Color</string>
+    <string name="select_folder_color">Select folder color</string>
 
     <string-array name="sort">
         <item>@string/none</item>

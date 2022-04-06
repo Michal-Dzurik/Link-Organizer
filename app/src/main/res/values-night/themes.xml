@@ -34,4 +34,10 @@
         <item name="rippleColor">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">?attr/colorOnSecondary</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColorPrimary">@color/white_gently_dark</item>
+    </style>
+
 </resources>
