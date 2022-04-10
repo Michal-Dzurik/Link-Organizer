@@ -1,0 +1,18 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:text="Hello"
+        android:id="@+id/text"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="10dp"
+        android:textColor="?attr/colorOnPrimary"
+        android:background="@color/transparent"
+        android:textAlignment="inherit"/>
+
+</LinearLayout>

@@ -30,7 +30,6 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,6 +43,8 @@ import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.adapters.FolderAdapter;
 import sk.po.spse.dzurikm.linkorganizer.heandlers.DatabaseHandler;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
+import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.views.AddLinkDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.BackupDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.ColorPickerDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.SettingsDialog;
@@ -85,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         root = (MotionLayout) findViewById(R.id.root);
 
         root.transitionToEnd();
+
+        isLinkShared(getIntent());
 
         foldersGridRecyclerView = (RecyclerView) findViewById(R.id.group_grid_layout);
         addFolderButton = (ImageButton) findViewById(R.id.addFolderButton);
@@ -178,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         backupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,6 +192,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void isLinkShared(Intent intent) {
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                AddLinkDialog addLinkDialog = new AddLinkDialog(MainActivity.this,getSupportFragmentManager(),sharedText);
+                addLinkDialog.show();
+            }
+
+        }
+
+    }
+
+    public static void addLink(Link link) {
+        int id = databaseHandler.addLink(link);
+        if (id > -1) System.out.println("Success");
     }
 
     private void checkPermissions() {
@@ -358,6 +383,12 @@ public class MainActivity extends AppCompatActivity {
         refreshFolders(MainActivity.this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        isLinkShared(intent);
+    }
+
     public static void refreshFolders(Context context){
         LinkedList<Folder> foldersNew = databaseHandler.getAllFolders();
         if (!areTheSameLists(foldersNew,folders)){
@@ -404,6 +435,10 @@ public class MainActivity extends AppCompatActivity {
                 Math.max( (int)(r * factor), 0 ),
                 Math.max( (int)(g * factor), 0 ),
                 Math.max( (int)(b * factor), 0 ) );
+    }
+
+    public static LinkedList<Folder> getAllFolders(){
+        return databaseHandler.getAllFolders();
     }
 
     @Override
