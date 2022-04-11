@@ -111,7 +111,7 @@ public class AddLinkDialog extends Dialog {
                         AddLinkDialog.this.dismiss();
 
                         link.setName(name);
-                        link.setDescription(description);
+                        link.setDescription(description.equals("") ? null : description) ;
                         link.setHref(href);
                         link.setColorId(colorCircle.getCardBackgroundColor().getDefaultColor());
                         link.setFolderId(folderIdSelected);
@@ -148,7 +148,7 @@ public class AddLinkDialog extends Dialog {
     }
 
     private boolean checkLinkText(String linkName,String linkDescription,String linkHref){
-        if (linkDescription.equals("") || linkName.equals("") || linkHref.equals("")) {
+        if (linkName.equals("") || linkHref.equals("")) {
             Toast.makeText(context,context.getString(R.string.You_didnt_fill_up_everything),Toast.LENGTH_SHORT).show();
             return false;
         }

@@ -57,7 +57,7 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.getTitle().setText(links.get(position).getName());
-        holder.getDescription().setText(links.get(position).getDescription() == null ? "" : links.get(position).getDescription() );
+        holder.getDescription().setText(links.get(position).getDescription() == null ? context.getString(R.string.no_description) : links.get(position).getDescription() );
         if (links.get(position).getColorId() != -1) holder.getColorCircle().setCardBackgroundColor(links.get(position).getColorId());
             else holder.getColorCircle().setCardBackgroundColor(FolderContentActivity.getCurrentFolderColor(context));
         holder.setLink(links.get(position));

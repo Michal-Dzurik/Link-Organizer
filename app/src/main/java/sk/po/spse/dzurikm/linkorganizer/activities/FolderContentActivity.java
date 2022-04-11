@@ -198,7 +198,7 @@ public class FolderContentActivity extends AppCompatActivity {
                         linkHref = linkHrefInput.getText().toString().trim();
                 if (!linkName.equals("") && !linkHref.equals("")){
                     if (checkLinkText(linkName,linkDescription,linkHref)){
-                        addLink(linkName,linkDescription,linkHref,linkCircle.getCardBackgroundColor().getDefaultColor());
+                        addLink(linkName,linkDescription.equals("") ? null : linkDescription,linkHref,linkCircle.getCardBackgroundColor().getDefaultColor());
                     }
                 }
                 else{
@@ -296,7 +296,7 @@ public class FolderContentActivity extends AppCompatActivity {
                                 // by name ASC
                                 if (links.size() > 0){
                                     Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getName()).charAt(0)));
-                                    Collections.reverse(links);
+
                                     linkAdapter.notifyDataSetChanged();
                                     linkRecyclerView.invalidate();
                                 }
@@ -306,6 +306,7 @@ public class FolderContentActivity extends AppCompatActivity {
                                 if (links.size() > 0){
                                     Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getName()).charAt(0)));
                                     linkAdapter.notifyDataSetChanged();
+                                    Collections.reverse(links);
                                     linkRecyclerView.invalidate();
                                 }
 
@@ -313,8 +314,8 @@ public class FolderContentActivity extends AppCompatActivity {
                             case 3:
                                 // by description ASC
                                 if(links.size() > 0){
-                                    Collections.reverse(links);
-                                    Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getDescription()).charAt(0)));
+
+                                    Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getDescription() == null ? "z" : obj.getDescription()).charAt(0)));
                                     linkAdapter.notifyDataSetChanged();
                                     linkRecyclerView.invalidate();
                                 }
@@ -322,8 +323,9 @@ public class FolderContentActivity extends AppCompatActivity {
                             case 4:
                                 // by description DESC
                                 if (links.size() > 0){
-                                    Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getDescription()).charAt(0)));
+                                    Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getDescription() == null ? "z" : obj.getDescription()).charAt(0)));
                                     linkAdapter.notifyDataSetChanged();
+                                    Collections.reverse(links);
                                     linkRecyclerView.invalidate();
                                 }
                                 break;

@@ -82,7 +82,7 @@ public class EditLinkDialog extends Dialog {
                     EditLinkDialog.this.dismiss();
 
                     link.setName(name);
-                    link.setDescription(description);
+                    link.setDescription(description.equals("") ? null : description);
                     link.setHref(href);
                     link.setColorId(colorCircle.getCardBackgroundColor().getDefaultColor());
 
@@ -117,6 +117,10 @@ public class EditLinkDialog extends Dialog {
     }
 
     private boolean checkLinkText(String linkName,String linkDescription,String linkHref){
+        if (linkName.equals("") || linkHref.equals("")) {
+            Toast.makeText(context,context.getString(R.string.You_didnt_fill_up_everything),Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if (linkName.length() > MAX_LINK_NAME_LENGTH) {
             //
             Toast.makeText(context,context.getString(R.string.link_name_is_too_long_max) + MAX_LINK_NAME_LENGTH + ")",Toast.LENGTH_SHORT).show();

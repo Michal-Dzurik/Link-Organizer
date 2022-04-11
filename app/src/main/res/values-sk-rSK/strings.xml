@@ -73,5 +73,6 @@
     <string name="select_folder_color">Vyberte farbu priečinku</string>
     <string name="add">Pridať</string>
     <string name="select_link_folder">"Vyberte odkazu priečinok "</string>
+    <string name="no_description">Žiaden popis</string>
 
 </resources>
