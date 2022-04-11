@@ -87,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
         root.transitionToEnd();
 
-        isLinkShared(getIntent());
-
         foldersGridRecyclerView = (RecyclerView) findViewById(R.id.group_grid_layout);
         addFolderButton = (ImageButton) findViewById(R.id.addFolderButton);
         addFolderBox = (ConstraintLayout) findViewById(R.id.addFolderBox);
@@ -109,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
 
         databaseHandler = new DatabaseHandler(MainActivity.this);
         folders = (LinkedList<Folder>) databaseHandler.getAllFolders();
+
+        isLinkShared(getIntent());
 
         if(folders.size() == 0){
             folders = new LinkedList<Folder>();

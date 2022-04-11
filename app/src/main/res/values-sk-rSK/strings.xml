@@ -40,10 +40,10 @@
     <string name="you_selected">Vybrali ste </string>
 
     <string name="none">Ničoho</string>
-    <string name="by_name_asc">Názvu priečinku (a-z)</string>
-    <string name="by_name_desc">Názvu priečinku (z-a)</string>
-    <string name="by_description_asc">Popisu prečinku ASC (a-z)</string>
-    <string name="by_description_desc">Popisu prečinku DESC (z-a)</string>
+    <string name="by_name_asc">Názvu odkazu (a-z)</string>
+    <string name="by_name_desc">Názvu odkazu (z-a)</string>
+    <string name="by_description_asc">Popisu odkazu (a-z)</string>
+    <string name="by_description_desc">Popisu odkazu (z-a)</string>
     <string name="cancel">Zrušiť</string>
     <string name="edit">Upraviť</string>
     <string name="operation_unsuccessful">Operácia neúspešná</string>
@@ -53,7 +53,7 @@
     <string name="select_folders_color">Vyberte farbu priečinkov</string>
     <string name="folder_color">Farba priečinkov</string>
     <string name="To_apply_folder_color_change_you_need_to_restart_the_app">Pre zmenu farby priečinku zreštartujte aplikáciu</string>
-    <string name="select_link_color">Vyberte farbu linku</string>
+    <string name="select_link_color">Vyberte farbu odkazu</string>
     <string name="default_color">Predvolená farba</string>
 
     <string-array name="sort">
@@ -71,5 +71,7 @@
         <item>4</item>
     </integer-array>
     <string name="select_folder_color">Vyberte farbu priečinku</string>
+    <string name="add">Pridať</string>
+    <string name="select_link_folder">"Vyberte odkazu priečinok "</string>
 
 </resources>

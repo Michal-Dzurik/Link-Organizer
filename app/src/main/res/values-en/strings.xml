@@ -72,6 +72,8 @@
         <item>4</item>
     </integer-array>
     <string name="select_folder_color">Select folder color</string>
+    <string name="add">Add</string>
+    <string name="select_link_folder">Select link folder</string>
 
 
 </resources>

@@ -491,7 +491,7 @@ public class FolderContentActivity extends AppCompatActivity {
         linkAdapter.notifyDataSetChanged();
 
 
-        Toast.makeText(context,context.getString(R.string.Link) + link.getName() + " " + context.getString(R.string.was_removed_successfully) +  "." ,Toast.LENGTH_LONG).show();
+        Toast.makeText(context,context.getString(R.string.Link) + " " +  link.getName() + " " + context.getString(R.string.was_removed_successfully) +  "." ,Toast.LENGTH_LONG).show();
     }
 
 
