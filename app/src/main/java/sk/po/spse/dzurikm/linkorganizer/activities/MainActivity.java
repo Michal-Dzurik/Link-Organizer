@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new FolderAdapter(MainActivity.this,folders);
 
         foldersGridRecyclerView.setAdapter(adapter);
-        foldersGridRecyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,2) );
         foldersGridRecyclerView.setNestedScrollingEnabled(false);
 
         settingsDialog = new SettingsDialog(MainActivity.this);

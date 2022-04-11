@@ -66,7 +66,7 @@ public class FilterDialog extends Dialog {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,context.getString(R.string.you_selected) + paths[selected],Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,context.getString(R.string.you_selected) + " " + paths[selected],Toast.LENGTH_SHORT).show();
                 onPositiveButtonClick.callback(selected);
                 FilterDialog.this.dismiss();
             }

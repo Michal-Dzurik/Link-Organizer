@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -117,7 +118,6 @@ public class FolderContentActivity extends AppCompatActivity {
         if (links.size() != 0){
             linkAdapter = new LinkAdapter(FolderContentActivity.this,getSupportFragmentManager(),links);
             linkRecyclerView.setAdapter(linkAdapter);
-            linkRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         }
 
         linkCircle.setOnClickListener(new View.OnClickListener() {
@@ -296,35 +296,36 @@ public class FolderContentActivity extends AppCompatActivity {
                                 // by name ASC
                                 if (links.size() > 0){
                                     Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getName()).charAt(0)));
+                                    Collections.reverse(links);
                                     linkAdapter.notifyDataSetChanged();
                                     linkRecyclerView.invalidate();
                                 }
                                 break;
                             case 2:
+                                // by name DESC
                                 if (links.size() > 0){
                                     Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getName()).charAt(0)));
-                                    Collections.reverse(links);
                                     linkAdapter.notifyDataSetChanged();
                                     linkRecyclerView.invalidate();
                                 }
-                                // by name DESC
+
                                 break;
                             case 3:
                                 // by description ASC
-                                if (links.size() > 0){
-                                    Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getDescription()).charAt(0)));
-                                    linkAdapter.notifyDataSetChanged();
-                                    linkRecyclerView.invalidate();
-                                }
-                                break;
-                            case 4:
                                 if(links.size() > 0){
                                     Collections.reverse(links);
                                     Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getDescription()).charAt(0)));
                                     linkAdapter.notifyDataSetChanged();
                                     linkRecyclerView.invalidate();
                                 }
+                                break;
+                            case 4:
                                 // by description DESC
+                                if (links.size() > 0){
+                                    Collections.sort(links, Comparator.comparingInt( obj -> (int) deAccent(obj.getDescription()).charAt(0)));
+                                    linkAdapter.notifyDataSetChanged();
+                                    linkRecyclerView.invalidate();
+                                }
                                 break;
                             default:
                                 // none
@@ -429,7 +430,6 @@ public class FolderContentActivity extends AppCompatActivity {
             links.add(link);
             linkAdapter = new LinkAdapter(FolderContentActivity.this,getSupportFragmentManager(),links);
             linkRecyclerView.setAdapter(linkAdapter);
-            linkRecyclerView.setLayoutManager(new LinearLayoutManager(FolderContentActivity.this));
 
             linkAdapter.notifyDataSetChanged();
 
