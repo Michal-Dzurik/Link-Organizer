@@ -67,8 +67,8 @@ public class FolderContentActivity extends AppCompatActivity {
     private FloatingActionButton filterButton;
     private CardView linkCircle;
 
-    private final int MAX_LINK_NAME_LENGTH = 30;
-    private final int MAX_LINK_DESCRIPTION_LENGTH = 35;
+    private int MAX_LINK_NAME_LENGTH;
+    private int MAX_LINK_DESCRIPTION_LENGTH;
 
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor sharedPreferencesEditor;
@@ -84,6 +84,9 @@ public class FolderContentActivity extends AppCompatActivity {
 
 
         databaseHandler = new DatabaseHandler(FolderContentActivity.this);
+
+        MAX_LINK_NAME_LENGTH = getResources().getInteger(R.integer.link_heading_max_characters);
+        MAX_LINK_DESCRIPTION_LENGTH = getResources().getInteger(R.integer.link_description_max_characters);
 
         root = (MotionLayout) findViewById(R.id.root);
 

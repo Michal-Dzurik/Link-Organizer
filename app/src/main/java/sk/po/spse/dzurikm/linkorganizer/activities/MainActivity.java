@@ -9,6 +9,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -65,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
     private static DatabaseHandler databaseHandler;
     private static FolderAdapter adapter;
 
-    private final int MAX_FOLDER_NAME_LENGTH = 15;
-    private final int MAX_FOLDER_DESCRIPTION_LENGTH = 30;
+    private int MAX_FOLDER_NAME_LENGTH;
+    private int MAX_FOLDER_DESCRIPTION_LENGTH;
 
     private BackupDialog backupDialog;
 
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Link-Organizer", 0); // 0 - for private mode
         sharedPreferencesEditor = sharedPreferences.edit();
+
+        MAX_FOLDER_NAME_LENGTH = getResources().getInteger(R.integer.folder_heading_max_characters);
+        MAX_FOLDER_DESCRIPTION_LENGTH = getResources().getInteger(R.integer.folder_description_max_characters);
 
         root = (MotionLayout) findViewById(R.id.root);
 
@@ -118,12 +122,12 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermissions();
 
-        adapter = new FolderAdapter(MainActivity.this,folders);
+        adapter = new FolderAdapter(MainActivity.this,MainActivity.this.getSupportFragmentManager(),folders);
 
         foldersGridRecyclerView.setAdapter(adapter);
         foldersGridRecyclerView.setNestedScrollingEnabled(false);
 
-        settingsDialog = new SettingsDialog(MainActivity.this);
+        settingsDialog = new SettingsDialog(MainActivity.this,MainActivity.this.getSupportFragmentManager());
 
         moreOptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshDatabase(){
         folders = (LinkedList<Folder>) databaseHandler.getAllFolders();
-        adapter = new FolderAdapter(MainActivity.this,folders);
+        adapter = new FolderAdapter(MainActivity.this,MainActivity.this.getSupportFragmentManager(),folders);
 
         foldersGridRecyclerView.setAdapter(adapter);
     }
@@ -268,6 +272,25 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,getString(R.string.Folder) + folder.getName() + getString(R.string.wasnt_created),Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public static void editFolder(Folder folder) {
+        databaseHandler.updateFolder(folder);
+        int positionInList = getPositionOfFolder(folder);
+        if (positionInList > -1){
+            folders.set(positionInList,folder);
+            adapter.notifyDataSetChanged();
+        }
+        else System.out.println("No folder like that ");
+
+    }
+
+    public static int getPositionOfFolder(Folder folder){
+        for (int i = 0; i < folders.size(); i++) {
+            if (folder.getId() == folders.get(i).getId()) return i;
+        }
+
+        return -1;
     }
 
     public static void removeFolder(Context context,Folder folder, View view){
@@ -320,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
     public void exportDatabase(Uri uri) throws IOException {
         if (uri != null){
             if (databaseHandler.exportDatabase(uri)){
-                Toast.makeText(MainActivity.this,MainActivity.this.getString(R.string.operation_unsuccessful),Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,MainActivity.this.getString(R.string.operation_successful),Toast.LENGTH_SHORT).show();
             }
         }
         else{
@@ -331,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
     private void importDatabase(Uri uri) throws IOException {
         if (uri != null){
             if (databaseHandler.importDatabase(uri)){
-                Toast.makeText(MainActivity.this,MainActivity.this.getString(R.string.operation_unsuccessful),Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,MainActivity.this.getString(R.string.operation_successful),Toast.LENGTH_SHORT).show();
             }
         }
         else{
@@ -379,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshFolders(MainActivity.this);
+        refreshFolders(MainActivity.this,MainActivity.this.getSupportFragmentManager());
     }
 
     @Override
@@ -388,11 +411,11 @@ public class MainActivity extends AppCompatActivity {
         isLinkShared(intent);
     }
 
-    public static void refreshFolders(Context context){
+    public static void refreshFolders(Context context, FragmentManager fragmentManager){
         LinkedList<Folder> foldersNew = databaseHandler.getAllFolders();
         if (!areTheSameLists(foldersNew,folders)){
             folders = foldersNew;
-            adapter = new FolderAdapter(context,folders);
+            adapter = new FolderAdapter(context,fragmentManager,folders);
             foldersGridRecyclerView.setAdapter(adapter);
         }
     }
@@ -411,11 +434,11 @@ public class MainActivity extends AppCompatActivity {
         return sharedPreferences.getInt("folder_color",ContextCompat.getColor(context, R.color.blue));
     }
 
-    public static void setCurrentFolderColor(Context context,int res){
+    public static void setCurrentFolderColor(Context context,FragmentManager fragmentManager,int res){
         sharedPreferencesEditor.putInt("folder_color",res);
         sharedPreferencesEditor.commit();
         // when color changes
-        refreshFolders(context);
+        refreshFolders(context,fragmentManager);
         refreshFolderColor(res);
     }
 

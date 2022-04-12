@@ -1,14 +1,11 @@
 package sk.po.spse.dzurikm.linkorganizer.adapters;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +22,9 @@ import java.util.List;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
+import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.views.AlertDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.ColorPickerDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.EditLinkDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
@@ -64,7 +62,7 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
         holder.setEditButtonOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditLinkDialog dialog = new EditLinkDialog(context,fragmentManager, links.get(position),30,35);
+                EditLinkDialog dialog = new EditLinkDialog(context,fragmentManager, links.get(position));
                 dialog.show();
             }
         });
@@ -122,22 +120,23 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    AlertDialog dialog = new AlertDialog.Builder(context,R.style.AlertDialog)
-                            .setTitle(context.getString(R.string.Delete_Item))
-                            .setMessage(context.getString(R.string.Do_you_really_want_to_delete) + " " + title.getText().toString() + " " + context.getString(R.string.Link))
-                            .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    removeLink(link,root);
-                                }
-                            })
-                            .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .show();
+                    AlertDialog dialog = new AlertDialog(context);
+                    dialog.show();
+                    dialog.setHeading(context.getString(R.string.Delete_Item));
+                    dialog.setText(context.getString(R.string.Do_you_really_want_to_delete) + " " + title.getText().toString() + " " + context.getString(R.string.Link));
+                    dialog.setOnNegativeButtonClick(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    dialog.setOnPositiveButtonClick(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            removeLink(link,root);
+                            dialogInterface.dismiss();
+                        }
+                    });
 
                     return true;
                 }

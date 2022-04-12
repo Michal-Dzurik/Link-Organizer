@@ -57,8 +57,8 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             app:cardBackgroundColor="@color/blue"
-                            app:cardCornerRadius="30dp"
-                            tools:cardElevation="0dp"/>
+                            app:cardCornerRadius="25dp"
+                            tools:cardElevation="0dp" />
                     </LinearLayout>
 
 
@@ -70,30 +70,31 @@
 
                         <EditText
                             android:id="@+id/linkName"
-                            android:textColorHint="?attr/colorOnPrimary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:hint="@string/title"
                             android:textColor="@color/white"
-                            android:textSize="17sp" />
+                            android:textColorHint="?attr/colorOnSecondaryContainer"
+                            android:textSize="17sp"
+                            android:maxLength="@integer/link_heading_max_characters"/>
 
                         <EditText
                             android:id="@+id/linkDescription"
-                            android:textColorHint="?attr/colorOnPrimary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:hint="@string/description"
                             android:textColor="@color/white_gently_dark"
-                            android:textSize="12dp" />
+                            android:textColorHint="?attr/colorOnSecondaryContainer"
+                            android:textSize="12dp"
+                            android:maxLength="@integer/link_description_max_characters"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <EditText
-                    android:textColorHint="?attr/colorOnPrimary"
                     android:id="@+id/linkHref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -103,6 +104,7 @@
                     android:inputType="textUri"
                     android:padding="15dp"
                     android:textColor="@color/white_gently_dark"
+                    android:textColorHint="?attr/colorOnSecondaryContainer"
                     android:textSize="12dp" />
 
             </LinearLayout>

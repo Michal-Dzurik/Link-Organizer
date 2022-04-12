@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="folder_heading_max_characters">14</integer>
+    <integer name="folder_description_max_characters">20</integer>
+
+    <integer name="link_heading_max_characters">25</integer>
+    <integer name="link_description_max_characters">25</integer>
+</resources>

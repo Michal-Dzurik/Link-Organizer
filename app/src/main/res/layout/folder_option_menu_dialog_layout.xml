@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/filter_dialog_background"
+    android:gravity="center"
+    android:paddingTop="15dp"
+    android:paddingBottom="20dp"
+    tools:targetApi="s">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        android:paddingHorizontal="22dp"
+        android:textSize="22sp"
+        android:paddingVertical="10dp"
+        android:text="ok"/>
+
+    <LinearLayout
+        android:id="@+id/editFolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="7dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/folder_menu_item_background">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_edit"
+            android:padding="10dp"
+            app:tint="?android:attr/textColor" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/edit_folder"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:textColor="?android:attr/textColor"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/deleteFolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="7dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/folder_menu_item_background">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_delete"
+            android:padding="10dp"
+            app:tint="@color/danger" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/remove_folder"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/danger"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+</LinearLayout>

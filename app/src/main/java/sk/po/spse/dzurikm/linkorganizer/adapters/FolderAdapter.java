@@ -13,8 +13,8 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -24,6 +24,11 @@ import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
 import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
+import sk.po.spse.dzurikm.linkorganizer.views.EditFolderDialog;
+import sk.po.spse.dzurikm.linkorganizer.views.FolderOptionMenuDialog;
+import sk.po.spse.dzurikm.linkorganizer.views.AlertDialog;
+import sk.po.spse.dzurikm.linkorganizer.views.listeners.FolderMenuListener;
+import sk.po.spse.dzurikm.linkorganizer.views.listeners.Listener;
 
 public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder> implements AdapterView.OnItemClickListener {
     private Context context;
@@ -32,11 +37,13 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     private LayoutInflater inflter;
     private int originalSizeOfAdapter;
     private View rootView;
+    private FragmentManager fragmentManager;
 
     // data is passed into the constructor
-    public FolderAdapter(Context context, LinkedList<Folder> folders) {
+    public FolderAdapter(Context context, FragmentManager fragmentManager, LinkedList<Folder> folders) {
         this.context = context;
         this.folders = folders;
+        this.fragmentManager = fragmentManager;
 
         originalSizeOfAdapter = folders.size();
 
@@ -52,7 +59,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.getFolderName().setText(folders.get(position).getName());
         holder.getFolderDescription().setText(folders.get(position).getDescription());
         if (folders.get(position).getColorId() != -1) {
@@ -64,7 +71,58 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             holder.getFolderBookmark().setCardBackgroundColor(MainActivity.lighten(MainActivity.getCurrentFolderColor(context), 0.85F));
         }
 
+        holder.getView().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                FolderOptionMenuDialog optionMenu = new FolderOptionMenuDialog(context,fragmentManager,folders.get(position));
+                optionMenu.setListener(new FolderMenuListener() {
+                    @Override
+                    public void onEdit(View v) {
+                       // TODO: Make edit dialog for folders (layout is done already)
+                        EditFolderDialog dialog = new EditFolderDialog(context,fragmentManager,folders.get(position));
+                        dialog.setAfterPositiveButtonClick(new Listener() {
+                            @Override
+                            public void perform() {
+                                optionMenu.dismiss();
+                            }
+                        });
+                        dialog.setAfterNegativeButtonClick(new Listener() {
+                            @Override
+                            public void perform() {
+                            }
+                        });
+                        dialog.show();
+                    }
 
+                    @Override
+                    public void onDelete(View v) {
+                        AlertDialog dialog = new AlertDialog(context);
+                        dialog.show();
+                        dialog.setHeading(context.getString(R.string.Delete_Item));
+                        dialog.setText(context.getString(R.string.Do_you_really_want_to_delete) + " " + folders.get(position).getName() + " " + context.getString(R.string.Folder));
+                        dialog.setOnNegativeButtonClick(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        dialog.setOnPositiveButtonClick(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                MainActivity.removeFolder(context,folders.get(position),view);
+                                dialogInterface.dismiss();
+                                optionMenu.dismiss();
+                            }
+                        });
+
+
+                    }
+                });
+
+                optionMenu.show();
+                return false;
+            }
+        });
 
         if (originalSizeOfAdapter == position){
             rootView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_in_bottom));
@@ -93,32 +151,10 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView folderName,folderDescription;
         CardView folderBackground,folderBookmark;
+        View view;
 
         ViewHolder(View view) {
             super(view);
-
-            view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    new AlertDialog.Builder(context,R.style.AlertDialog)
-                            .setTitle(context.getString(R.string.Delete_Item))
-                            .setMessage(context.getString(R.string.Do_you_really_want_to_delete) + " " + folders.get(getAdapterPosition()).getName() + " " + context.getString(R.string.Folder))
-                            .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    MainActivity.removeFolder(context,folders.get(getAdapterPosition()),view);
-                                }
-                            })
-                            .setNegativeButton(R.string.No, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .show();
-                    return false;
-                }
-            });
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,6 +173,8 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             folderBackground = (CardView) view.findViewById(R.id.folder_background);
             folderBookmark = (CardView) view.findViewById(R.id.folder_bookmark);
 
+            this.view = view;
+
         }
 
         public CardView getFolderBookmark() {
@@ -145,6 +183,10 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
 
         public void setFolderBookmark(CardView folderBookmark) {
             this.folderBookmark = folderBookmark;
+        }
+
+        public View getView() {
+            return view;
         }
 
         public CardView getFolderBackground() {

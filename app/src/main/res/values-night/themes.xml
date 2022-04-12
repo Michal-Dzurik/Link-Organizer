@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/dark_gently_lighter</item>
         <item name="colorOnPrimary">@color/white_gently_dark</item>
+        <item name="colorOnSecondaryContainer">#B8B8B8</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue</item>
         <item name="colorSecondaryVariant">@color/dark</item>
@@ -38,6 +39,7 @@
         <item name="android:background">?attr/colorOnSecondary</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:textColorPrimary">@color/white_gently_dark</item>
+        <item name="buttonStyle">@style/Widget.MaterialComponents.Button.TextButton.Dialog</item>
     </style>
 
 </resources>

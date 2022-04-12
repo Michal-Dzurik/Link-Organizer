@@ -39,12 +39,12 @@ public class EditLinkDialog extends Dialog {
     private int MAX_LINK_NAME_LENGTH = 30;
     private int MAX_LINK_DESCRIPTION_LENGTH = 35;
 
-    public EditLinkDialog(@NonNull Context context, FragmentManager fragmentManager, Link link, int MAX_LINK_NAME_LENGTH, int MAX_LINK_DESCRIPTION_LENGTH) {
+    public EditLinkDialog(@NonNull Context context, FragmentManager fragmentManager, Link link) {
         super(context);
         this.link = link;
         this.context = context;
-        this.MAX_LINK_NAME_LENGTH = MAX_LINK_NAME_LENGTH;
-        this.MAX_LINK_DESCRIPTION_LENGTH = MAX_LINK_DESCRIPTION_LENGTH;
+        this.MAX_LINK_NAME_LENGTH = context.getResources().getInteger(R.integer.link_heading_max_characters);
+        this.MAX_LINK_DESCRIPTION_LENGTH = context.getResources().getInteger(R.integer.link_description_max_characters);
         this.fragmentManager = fragmentManager;
     }
 

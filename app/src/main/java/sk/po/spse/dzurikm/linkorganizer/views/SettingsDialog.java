@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -21,9 +22,11 @@ public class SettingsDialog extends BottomSheetDialogFragment {
     private View rootView;
     private int color;
     private Context context;
+    private FragmentManager fragmentManager;
 
-    public SettingsDialog(Context context) {
+    public SettingsDialog(Context context, FragmentManager fragmentManager) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
         setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.SettingsDialog);
     }
 
@@ -37,7 +40,7 @@ public class SettingsDialog extends BottomSheetDialogFragment {
         picker.setOnPickColorListener(new OnColorPickedListener() {
             @Override
             public void colorPicked(int color) {
-                MainActivity.setCurrentFolderColor(context,color);
+                MainActivity.setCurrentFolderColor(context,fragmentManager,color);
                 //Toast.makeText(getContext(), getContext().getString(R.string.To_apply_folder_color_change_you_need_to_restart_the_app),Toast.LENGTH_SHORT).show();
                 SettingsDialog.refreshSelectedColor(context,color);
             }

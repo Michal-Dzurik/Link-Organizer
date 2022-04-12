@@ -74,5 +74,6 @@
     <string name="add">Pridať</string>
     <string name="select_link_folder">"Vyberte odkazu priečinok "</string>
     <string name="no_description">Žiaden popis</string>
+    <string name="operation_successful">Operácia prebehla úspešne</string>
 
 </resources>

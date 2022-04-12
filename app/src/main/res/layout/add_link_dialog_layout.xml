@@ -94,8 +94,9 @@
                             android:background="@color/transparent"
                             android:hint="@string/title"
                             android:textColor="@color/white"
-                            android:textColorHint="?attr/colorOnPrimary"
-                            android:textSize="17sp" />
+                            android:textColorHint="?attr/colorOnSecondaryContainer"
+                            android:textSize="17sp"
+                            android:maxLength="@integer/link_heading_max_characters"/>
 
                         <EditText
                             android:id="@+id/linkDescription"
@@ -104,8 +105,9 @@
                             android:background="@color/transparent"
                             android:hint="@string/description"
                             android:textColor="@color/white_gently_dark"
-                            android:textColorHint="?attr/colorOnPrimary"
-                            android:textSize="12dp" />
+                            android:textColorHint="?attr/colorOnSecondaryContainer"
+                            android:textSize="12dp"
+                            android:maxLength="@integer/link_description_max_characters"/>
 
                     </LinearLayout>
 
@@ -121,7 +123,7 @@
                     android:inputType="textUri"
                     android:padding="15dp"
                     android:textColor="@color/white_gently_dark"
-                    android:textColorHint="?attr/colorOnPrimary"
+                    android:textColorHint="?attr/colorOnSecondaryContainer"
                     android:textSize="12dp" />
 
             </LinearLayout>

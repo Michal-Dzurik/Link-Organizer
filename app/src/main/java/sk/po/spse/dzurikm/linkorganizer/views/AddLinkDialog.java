@@ -45,20 +45,13 @@ public class AddLinkDialog extends Dialog {
 
     private int folderIdSelected = -1;
 
-    public AddLinkDialog(@NonNull Context context, FragmentManager fragmentManager, String link, int MAX_LINK_NAME_LENGTH, int MAX_LINK_DESCRIPTION_LENGTH) {
-        super(context);
-        this.link = link;
-        this.context = context;
-        this.MAX_LINK_NAME_LENGTH = MAX_LINK_NAME_LENGTH;
-        this.MAX_LINK_DESCRIPTION_LENGTH = MAX_LINK_DESCRIPTION_LENGTH;
-        this.fragmentManager = fragmentManager;
-    }
-
     public AddLinkDialog(@NonNull Context context, FragmentManager fragmentManager, String link) {
         super(context);
         this.link = link;
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.MAX_LINK_NAME_LENGTH = context.getResources().getInteger(R.integer.link_heading_max_characters);
+        this.MAX_LINK_DESCRIPTION_LENGTH = context.getResources().getInteger(R.integer.link_description_max_characters);
     }
 
     @Override
@@ -139,6 +132,7 @@ public class AddLinkDialog extends Dialog {
                         // Color is picked
                         Log.d("COLOR PICKED",String.valueOf(color));
                         colorCircle.setCardBackgroundColor(color);
+                        Toast.makeText(context,context.getString(R.string.operation_successful),Toast.LENGTH_SHORT).show();
                     }
                 });
                 colorPickerDialog.show(fragmentManager,"ColorPicker");

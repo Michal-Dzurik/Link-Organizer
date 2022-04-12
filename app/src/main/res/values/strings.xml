@@ -48,6 +48,7 @@
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="operation_unsuccessful">Operation unsuccessful</string>
+    <string name="operation_successful">Operation successful</string>
     <string name="you_havent_changed_anything">You haven\'t changed anything</string>
     <string name="folder_edited_successfully">Folder edited successfully</string>
     <string name="ok">OK</string>
@@ -60,6 +61,8 @@
     <string name="add">Add</string>
     <string name="select_link_folder">Select link folder</string>
     <string name="no_description">No description</string>
+    <string name="edit_folder">Edit folder</string>
+    <string name="remove_folder">Remove folder</string>
 
     <string-array name="sort">
         <item>@string/none</item>
