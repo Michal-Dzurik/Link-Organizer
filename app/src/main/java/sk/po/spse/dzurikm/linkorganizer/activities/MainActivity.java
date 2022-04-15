@@ -53,7 +53,7 @@ import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class MainActivity extends AppCompatActivity {
     private static RecyclerView foldersGridRecyclerView;
-    private ImageButton addFolderButton,dismissAddFolderButton,approveAddFolderButton,backupButton;
+    private ImageButton addFolderButton,dismissAddFolderButton,approveAddFolderButton,backupButton,setFolderColorButton;
     private EditText folderNameInput,folderDescriptionInput;
     private FloatingActionButton moreOptionButton;
 
@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         dismissAddFolderButton = (ImageButton) findViewById(R.id.dismissAddFolderButton);
         approveAddFolderButton = (ImageButton) findViewById(R.id.approveAddFolderButton);
+        setFolderColorButton = (ImageButton) findViewById(R.id.setFolderColorButton);
 
         folderNameInput = (EditText) findViewById(R.id.folderNameInput);
         folderDescriptionInput = (EditText) findViewById(R.id.folderDescriptionInput);
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        folderBackground.setOnClickListener(new View.OnClickListener() {
+        setFolderColorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ColorPickerDialog colorPickerDialog = new ColorPickerDialog(MainActivity.this,getString(R.string.select_folder_color));

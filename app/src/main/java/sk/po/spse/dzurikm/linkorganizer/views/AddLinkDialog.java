@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -19,6 +21,14 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.LinkedList;
 
@@ -32,6 +42,7 @@ import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class AddLinkDialog extends Dialog {
     private Button positiveButton,negativeButton;
+    private ImageButton autoInfoLoadButton;
     private EditText nameInput,descriptionInput,hrefInput;
     private String link;
     private CardView colorCircle;
@@ -66,6 +77,7 @@ public class AddLinkDialog extends Dialog {
 
         positiveButton = (Button) findViewById(R.id.positiveButton);
         negativeButton = (Button) findViewById(R.id.negativeButton);
+        autoInfoLoadButton = (ImageButton) findViewById(R.id.autoInfoLoadButton);
 
         nameInput = (EditText) findViewById(R.id.linkName);
         descriptionInput = (EditText) findViewById(R.id.linkDescription);
@@ -139,6 +151,50 @@ public class AddLinkDialog extends Dialog {
             }
         });
 
+        autoInfoLoadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = hrefInput.getText().toString().trim();
+
+                if (isValidHref(url)){
+                    RequestQueue queue = Volley.newRequestQueue(context);
+
+                    StringRequest request = new StringRequest(Request.Method.GET, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    // Display the first 500 characters of the response string.
+                                    try {
+                                        autoURLInfoDone(sk.po.spse.dzurikm.linkorganizer.utils.AutoURLInfoUtil.getLink(url,response));
+                                    } catch (URISyntaxException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+
+                    queue.add(request);
+
+                }
+                else Toast.makeText(context, context.getString(R.string.valid_url_isnt_provided),Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }
+
+    public void autoURLInfoDone(Link link){
+        if (link == null)
+            Toast.makeText(context,context.getString(R.string.site_is_not_supported),Toast.LENGTH_SHORT).show();
+        else {
+            nameInput.setText(link.getName());
+            descriptionInput.setText(link.getDescription());
+        }
     }
 
     private boolean checkLinkText(String linkName,String linkDescription,String linkHref){

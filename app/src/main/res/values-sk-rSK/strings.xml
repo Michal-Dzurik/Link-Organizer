@@ -75,5 +75,8 @@
     <string name="select_link_folder">"Vyberte odkazu priečinok "</string>
     <string name="no_description">Žiaden popis</string>
     <string name="operation_successful">Operácia prebehla úspešne</string>
+    <string name="edit_folder">Upraviť priečinok</string>
+    <string name="remove_folder">Odstrániť priečinok</string>
+    <string name="edit_link">Upraviť odkaz</string>
 
 </resources>

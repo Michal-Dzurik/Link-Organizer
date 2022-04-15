@@ -8,18 +8,34 @@
     android:background="@drawable/filter_dialog_background"
     android:gravity="center"
     android:paddingTop="15dp"
-    android:paddingBottom="20dp"
+    android:paddingBottom="15dp"
     tools:targetApi="s">
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?attr/colorOnPrimary"
-        android:paddingHorizontal="22dp"
-        android:textSize="22sp"
-        android:paddingVertical="10dp"
-        android:text="ok"/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnSecondaryContainer"
+            android:paddingLeft="22dp"
+            android:textSize="20sp"
+            android:paddingVertical="10dp"
+            android:text="Options for:"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="20sp"
+            android:paddingVertical="10dp"
+            android:paddingLeft="5dp"
+            android:text="ok"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/editFolder"

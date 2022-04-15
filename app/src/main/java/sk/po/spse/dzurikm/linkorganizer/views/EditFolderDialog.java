@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class EditFolderDialog extends Dialog {
     private Button positiveButton,negativeButton;
+    private ImageButton setFolderColorButton;
     private EditText nameInput,descriptionInput;
     private Folder folder;
     private CardView folderBackground,folderBookmark;
@@ -57,6 +59,7 @@ public class EditFolderDialog extends Dialog {
 
         positiveButton = (Button) findViewById(R.id.positiveButton);
         negativeButton = (Button) findViewById(R.id.negativeButton);
+        setFolderColorButton = (ImageButton) findViewById(R.id.setFolderColorButton);
 
         nameInput = (EditText) findViewById(R.id.folderNameInput);
         descriptionInput = (EditText) findViewById(R.id.folderDescriptionInput);
@@ -102,7 +105,7 @@ public class EditFolderDialog extends Dialog {
             }
         });
 
-        folderBackground.setOnClickListener(new View.OnClickListener() {
+        setFolderColorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ColorPickerDialog colorPickerDialog = new ColorPickerDialog(context,context.getString(R.string.select_link_color));

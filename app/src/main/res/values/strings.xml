@@ -63,6 +63,8 @@
     <string name="no_description">No description</string>
     <string name="edit_folder">Edit folder</string>
     <string name="remove_folder">Remove folder</string>
+    <string name="edit_link">Edit Link</string>
+    <string name="add_link">Add link</string>
 
     <string-array name="sort">
         <item>@string/none</item>
