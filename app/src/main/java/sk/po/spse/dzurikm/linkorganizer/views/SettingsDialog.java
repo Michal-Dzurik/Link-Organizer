@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class SettingsDialog extends BottomSheetDialogFragment {
@@ -61,7 +62,7 @@ public class SettingsDialog extends BottomSheetDialogFragment {
         dialog.getWindow().setDimAmount(0.0f);
 
         colorPickerButton = (CardView) rootView.findViewById(R.id.folderColorPickerButton);
-        colorPickerButton.setCardBackgroundColor(MainActivity.getCurrentFolderColor(context));
+        colorPickerButton.setCardBackgroundColor(ColorsUtil.getCurrentFolderColor(context));
 
         colorPickerButton.setOnClickListener(new View.OnClickListener() {
             @Override

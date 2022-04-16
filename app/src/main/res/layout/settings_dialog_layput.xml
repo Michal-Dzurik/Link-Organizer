@@ -52,7 +52,7 @@
                 android:layout_weight="1"
                 android:text="@string/default_color"
                 android:textAlignment="viewStart"
-                android:textSize="25sp" />
+                android:textSize="22sp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/folderColorPickerButton"

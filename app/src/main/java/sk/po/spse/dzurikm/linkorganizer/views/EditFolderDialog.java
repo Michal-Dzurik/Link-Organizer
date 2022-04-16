@@ -1,14 +1,15 @@
 package sk.po.spse.dzurikm.linkorganizer.views;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -17,14 +18,17 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.button.MaterialButton;
+
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.Listener;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class EditFolderDialog extends Dialog {
-    private Button positiveButton,negativeButton;
+    private MaterialButton positiveButton,negativeButton;
     private ImageButton setFolderColorButton;
     private EditText nameInput,descriptionInput;
     private Folder folder;
@@ -47,6 +51,7 @@ public class EditFolderDialog extends Dialog {
         this.fragmentManager = fragmentManager;
     }
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +62,8 @@ public class EditFolderDialog extends Dialog {
 
         this.getWindow().setDimAmount(.5f);
 
-        positiveButton = (Button) findViewById(R.id.positiveButton);
-        negativeButton = (Button) findViewById(R.id.negativeButton);
+        positiveButton = (MaterialButton) findViewById(R.id.positiveButton);
+        negativeButton = (MaterialButton) findViewById(R.id.negativeButton);
         setFolderColorButton = (ImageButton) findViewById(R.id.setFolderColorButton);
 
         nameInput = (EditText) findViewById(R.id.folderNameInput);
@@ -66,16 +71,21 @@ public class EditFolderDialog extends Dialog {
         folderBackground = (CardView) findViewById(R.id.folder_background);
         folderBookmark = (CardView)findViewById(R.id.folder_bookmark);
 
+        positiveButton.getBackground().setTint(ColorsUtil.getCurrentFolderColor(context));
+        positiveButton.setRippleColor(ColorStateList.valueOf(ColorsUtil.lighten(ColorsUtil.getCurrentFolderColor(context),.75f)));
+        negativeButton.setRippleColor(ColorStateList.valueOf(ColorsUtil.lighten(context.getResources().getInteger(R.color.gentle_grey),.4f)));
+
+
         nameInput.setText(folder.getName());
         descriptionInput.setText(folder.getDescription());
 
         if (folder.getColorId() != -1) {
             folderBackground.setCardBackgroundColor(folder.getColorId());
-            folderBookmark.setCardBackgroundColor(MainActivity.lighten(folder.getColorId(), 0.85F));
+            folderBookmark.setCardBackgroundColor(ColorsUtil.lighten(folder.getColorId(), 0.85F));
         }
         else {
-            folderBackground.setCardBackgroundColor(MainActivity.getCurrentFolderColor(context));
-            folderBookmark.setCardBackgroundColor(MainActivity.lighten(MainActivity.getCurrentFolderColor(context), 0.85F));
+            folderBackground.setCardBackgroundColor(ColorsUtil.getCurrentFolderColor(context));
+            folderBookmark.setCardBackgroundColor(ColorsUtil.lighten(ColorsUtil.getCurrentFolderColor(context), 0.85F));
         }
 
         positiveButton.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +125,7 @@ public class EditFolderDialog extends Dialog {
                         // Color is picked
                         Log.d("COLOR PICKED",String.valueOf(color));
                         folderBackground.setCardBackgroundColor(color);
-                        folderBookmark.setCardBackgroundColor(MainActivity.lighten(color,0.85f));
+                        folderBookmark.setCardBackgroundColor(ColorsUtil.lighten(color,0.85f));
                     }
                 });
                 colorPickerDialog.show(fragmentManager,"ColorPicker");

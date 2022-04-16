@@ -5,26 +5,17 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 
-import java.net.URL;
-
 import sk.po.spse.dzurikm.linkorganizer.R;
-import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.FolderMenuListener;
-import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class FolderOptionMenuDialog extends Dialog {
     private View edit,delete;

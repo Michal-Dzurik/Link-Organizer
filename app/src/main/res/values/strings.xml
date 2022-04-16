@@ -37,7 +37,7 @@
     <string name="filter">Filter</string>
     <string name="flush">Flush</string>
     <string name="sort_by">Sort by</string>
-    <string name="you_selected">You selected </string>
+    <string name="you_selected">You selected filtering by </string>
 
     <string name="none">None</string>
     <string name="by_name_asc">By name ASC (a-z)</string>
@@ -65,6 +65,7 @@
     <string name="remove_folder">Remove folder</string>
     <string name="edit_link">Edit Link</string>
     <string name="add_link">Add link</string>
+    <string name="options_for">Options for:</string>
 
     <string-array name="sort">
         <item>@string/none</item>

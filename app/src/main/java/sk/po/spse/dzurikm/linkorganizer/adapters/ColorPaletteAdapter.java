@@ -13,13 +13,12 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
-import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.ColorSet;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnSelectChanged;
 
 public class ColorPaletteAdapter extends ArrayAdapter<ColorSet> {
@@ -31,7 +30,7 @@ public class ColorPaletteAdapter extends ArrayAdapter<ColorSet> {
     public ColorPaletteAdapter(@NonNull Context context, ArrayList<ColorSet> courseModelArrayList, OnSelectChanged listener) {
         super(context, 0, courseModelArrayList);
         this.listener = listener;
-        currentColor = MainActivity.getCurrentFolderColor(context);
+        currentColor = ColorsUtil.getCurrentFolderColor(context);
 
     }
 

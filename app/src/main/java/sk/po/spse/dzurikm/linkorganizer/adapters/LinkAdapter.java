@@ -22,8 +22,8 @@ import java.util.List;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
-import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.AlertDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.ColorPickerDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.EditLinkDialog;
@@ -57,7 +57,7 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.ViewHolder> {
         holder.getTitle().setText(links.get(position).getName());
         holder.getDescription().setText(links.get(position).getDescription() == null ? context.getString(R.string.no_description) : links.get(position).getDescription() );
         if (links.get(position).getColorId() != -1) holder.getColorCircle().setCardBackgroundColor(links.get(position).getColorId());
-            else holder.getColorCircle().setCardBackgroundColor(FolderContentActivity.getCurrentFolderColor(context));
+            else holder.getColorCircle().setCardBackgroundColor(ColorsUtil.getCurrentFolderColor(context));
         holder.setLink(links.get(position));
         holder.setEditButtonOnClickListener(new View.OnClickListener() {
             @Override

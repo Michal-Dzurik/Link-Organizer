@@ -1,17 +1,16 @@
 package sk.po.spse.dzurikm.linkorganizer.views;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -27,21 +26,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
 
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.LinkedList;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
-import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
 import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
 import sk.po.spse.dzurikm.linkorganizer.adapters.FolderSpinnerAdapter;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class AddLinkDialog extends Dialog {
-    private Button positiveButton,negativeButton;
+    private MaterialButton positiveButton,negativeButton;
     private ImageButton autoInfoLoadButton;
     private EditText nameInput,descriptionInput,hrefInput;
     private String link;
@@ -65,6 +65,7 @@ public class AddLinkDialog extends Dialog {
         this.MAX_LINK_DESCRIPTION_LENGTH = context.getResources().getInteger(R.integer.link_description_max_characters);
     }
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +76,8 @@ public class AddLinkDialog extends Dialog {
 
         this.getWindow().setDimAmount(.5f);
 
-        positiveButton = (Button) findViewById(R.id.positiveButton);
-        negativeButton = (Button) findViewById(R.id.negativeButton);
+        positiveButton = (MaterialButton) findViewById(R.id.positiveButton);
+        negativeButton = (MaterialButton) findViewById(R.id.negativeButton);
         autoInfoLoadButton = (ImageButton) findViewById(R.id.autoInfoLoadButton);
 
         nameInput = (EditText) findViewById(R.id.linkName);
@@ -85,8 +86,12 @@ public class AddLinkDialog extends Dialog {
         colorCircle = (CardView) findViewById(R.id.colorCircle);
         folderSpinner = (Spinner) findViewById(R.id.folder_spinner);
 
+        positiveButton.getBackground().setTint(ColorsUtil.getCurrentFolderColor(context));
+        positiveButton.setRippleColor(ColorStateList.valueOf(ColorsUtil.lighten(ColorsUtil.getCurrentFolderColor(context),.75f)));
+        negativeButton.setRippleColor(ColorStateList.valueOf(ColorsUtil.lighten(context.getResources().getInteger(R.color.gentle_grey),.4f)));
+
         hrefInput.setText(link);
-        colorCircle.setCardBackgroundColor(MainActivity.getCurrentFolderColor(context));
+        colorCircle.setCardBackgroundColor(ColorsUtil.getCurrentFolderColor(context));
 
         LinkedList<Folder> folders = MainActivity.getAllFolders();
         folders.addFirst(new Folder(0,context.getString(R.string.select_link_folder),"",0));

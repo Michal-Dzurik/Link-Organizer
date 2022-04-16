@@ -130,20 +130,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="right">
+        android:gravity="right"
+        android:paddingHorizontal="15dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            android:textColor="?attr/colorOnSecondaryContainer"
             android:id="@+id/negativeButton"
             android:text="@string/cancel"
+            android:textSize="13sp"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/positiveButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
             android:text="@string/edit"
+            android:textSize="13sp"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_marginStart="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

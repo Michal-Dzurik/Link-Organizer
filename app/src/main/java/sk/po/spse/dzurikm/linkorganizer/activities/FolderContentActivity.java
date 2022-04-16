@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -46,6 +44,7 @@ import sk.po.spse.dzurikm.linkorganizer.adapters.LinkAdapter;
 import sk.po.spse.dzurikm.linkorganizer.heandlers.DatabaseHandler;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.ColorPickerDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnPositiveButtonClick;
@@ -112,7 +111,9 @@ public class FolderContentActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         folderId = bundle.getInt("folder_id");
 
-        linkCircle.setCardBackgroundColor(getCurrentFolderColor(getApplicationContext()));
+        linkCircle.setCardBackgroundColor(ColorsUtil.getCurrentFolderColor(getApplicationContext()));
+        filterButton.setBackgroundTintList(ColorStateList.valueOf(ColorsUtil.getCurrentFolderColor(getApplicationContext())));
+        filterButton.setRippleColor(ColorsUtil.lighten(ColorsUtil.getCurrentFolderColor(getApplicationContext()),.3f));
 
         headingView.setText(databaseHandler.getFolder(folderId).getName());
 
@@ -346,9 +347,6 @@ public class FolderContentActivity extends AppCompatActivity {
         });
 
 
-    }
-    public static int getCurrentFolderColor(Context context){
-        return sharedPreferences.getInt("folder_color", ContextCompat.getColor(context, R.color.blue));
     }
 
     public String deAccent(String str) {

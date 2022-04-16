@@ -1,34 +1,34 @@
 package sk.po.spse.dzurikm.linkorganizer.views;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.net.URL;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnColorPickedListener;
 
 public class EditLinkDialog extends Dialog {
-    private Button positiveButton,negativeButton;
+    private MaterialButton positiveButton,negativeButton;
     private EditText nameInput,descriptionInput,hrefInput;
     private Link link;
     private CardView colorCircle;
@@ -48,6 +48,7 @@ public class EditLinkDialog extends Dialog {
         this.fragmentManager = fragmentManager;
     }
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +59,8 @@ public class EditLinkDialog extends Dialog {
 
         this.getWindow().setDimAmount(.5f);
 
-        positiveButton = (Button) findViewById(R.id.positiveButton);
-        negativeButton = (Button) findViewById(R.id.negativeButton);
+        positiveButton = (MaterialButton) findViewById(R.id.positiveButton);
+        negativeButton = (MaterialButton) findViewById(R.id.negativeButton);
 
         nameInput = (EditText) findViewById(R.id.linkName);
         descriptionInput = (EditText) findViewById(R.id.linkDescription);
@@ -70,7 +71,11 @@ public class EditLinkDialog extends Dialog {
         descriptionInput.setText(link.getDescription());
         hrefInput.setText(link.getHref());
         if (link.getColorId() != -1) colorCircle.setCardBackgroundColor(link.getColorId());
-        else colorCircle.setCardBackgroundColor(FolderContentActivity.getCurrentFolderColor(context));
+        else colorCircle.setCardBackgroundColor(ColorsUtil.getCurrentFolderColor(context));
+
+        positiveButton.getBackground().setTint(ColorsUtil.getCurrentFolderColor(context));
+        positiveButton.setRippleColor(ColorStateList.valueOf(ColorsUtil.lighten(ColorsUtil.getCurrentFolderColor(context),.75f)));
+        negativeButton.setRippleColor(ColorStateList.valueOf(ColorsUtil.lighten(context.getResources().getInteger(R.color.gentle_grey),.4f)));
 
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -23,7 +23,7 @@
             android:paddingLeft="22dp"
             android:textSize="20sp"
             android:paddingVertical="10dp"
-            android:text="Options for:"/>
+            android:text="@string/options_for"/>
 
         <TextView
             android:id="@+id/title"

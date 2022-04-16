@@ -10,7 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
@@ -39,12 +38,12 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-
 import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.adapters.FolderAdapter;
 import sk.po.spse.dzurikm.linkorganizer.heandlers.DatabaseHandler;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
 import sk.po.spse.dzurikm.linkorganizer.models.Link;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.AddLinkDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.BackupDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.ColorPickerDialog;
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             folders = new LinkedList<Folder>();
         }
 
-        refreshFolderColor(getCurrentFolderColor(getApplicationContext()));
+        refreshFolderColor(ColorsUtil.getCurrentFolderColor(getApplicationContext()));
 
         checkPermissions();
 
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                         // Color is picked
                         Log.d("COLOR PICKED",String.valueOf(color));
                         folderBackground.setCardBackgroundColor(color);
-                        folderBookmark.setCardBackgroundColor(lighten(color,.85F));
+                        folderBookmark.setCardBackgroundColor(ColorsUtil.lighten(color,.85F));
                     }
                 });
                 colorPickerDialog.show(getSupportFragmentManager(),"ColorPicker");
@@ -431,10 +430,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public static int getCurrentFolderColor(Context context){
-        return sharedPreferences.getInt("folder_color",ContextCompat.getColor(context, R.color.blue));
-    }
-
     public static void setCurrentFolderColor(Context context,FragmentManager fragmentManager,int res){
         sharedPreferencesEditor.putInt("folder_color",res);
         sharedPreferencesEditor.commit();
@@ -445,20 +440,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static void refreshFolderColor(int color){
         folderBackground.setCardBackgroundColor(color);
-        folderBookmark.setCardBackgroundColor(lighten(color,.85F));
+        folderBookmark.setCardBackgroundColor(ColorsUtil.lighten(color,.85F));
     }
 
-    public static int lighten(int color, float factor) {
-        int a = Color.alpha( color );
-        int r = Color.red( color );
-        int g = Color.green( color );
-        int b = Color.blue( color );
 
-        return Color.argb( a,
-                Math.max( (int)(r * factor), 0 ),
-                Math.max( (int)(g * factor), 0 ),
-                Math.max( (int)(b * factor), 0 ) );
-    }
 
     public static LinkedList<Folder> getAllFolders(){
         return databaseHandler.getAllFolders();

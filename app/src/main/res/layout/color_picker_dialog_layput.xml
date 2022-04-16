@@ -7,7 +7,7 @@
     android:background="@drawable/color_palette_background"
     android:orientation="vertical"
     android:paddingHorizontal="20dp"
-    android:paddingVertical="10dp">
+    android:paddingVertical="15dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -31,27 +31,33 @@
         android:verticalSpacing="10dp"/>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="right">
+        android:gravity="right"
+        android:paddingHorizontal="10dp">
 
-        <Button
-            android:id="@+id/positiveButton"
-            android:text="@string/ok"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Button
+        <com.google.android.material.button.MaterialButton
+            android:textColor="?attr/colorOnSecondaryContainer"
             android:id="@+id/negativeButton"
             android:text="@string/cancel"
+            android:textSize="13sp"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+        android:id="@+id/positiveButton"
+        android:text="@string/ok"
+            android:textSize="13sp"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+        android:layout_marginStart="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     </LinearLayout>
 
 

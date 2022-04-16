@@ -3,10 +3,10 @@
     <style name="Theme.LinkOrganizer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
 
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryVariant">@color/dark_gently_lighter</item>
         <item name="colorOnPrimary">@color/white_gently_dark</item>
-        <item name="colorOnSecondaryContainer">#9C9C9C</item>
+        <item name="colorOnSecondaryContainer">@color/gentle_grey</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blue</item>
         <item name="colorSecondaryVariant">@color/dark</item>
@@ -16,6 +16,7 @@
         <item name="backgroundColor">@color/dark</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="colorAccent">@color/white</item>
+        <item name="colorPrimaryContainer">@color/purple_300</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/backgroundColor</item>

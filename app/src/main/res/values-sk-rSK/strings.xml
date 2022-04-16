@@ -15,8 +15,8 @@
     <string name="there_are_no_folders_in_here_yet">Žiadny priečinok neexistuje</string>
     <string name="url">Adresa URL</string>
     <string name="description">Popis</string>
-    <string name="title">Nadpis</string>
-    <string name="folder_name">Názov priečinku</string>
+    <string name="title">Názov</string>
+    <string name="folder_name">Názov</string>
     <string name="Link">Odkaz</string>
     <string name="save_database_backup">Uložiť zálohu Databázy</string>
     <string name="restore_database">Obnoviť Databázu</string>
@@ -37,7 +37,7 @@
     <string name="filter">Filtrovať</string>
     <string name="flush">Zrušiť</string>
     <string name="sort_by">Zoradiť podľa </string>
-    <string name="you_selected">Vybrali ste </string>
+    <string name="you_selected">Vybrali ste filtrovanie podľa</string>
 
     <string name="none">Ničoho</string>
     <string name="by_name_asc">Názvu odkazu (a-z)</string>
@@ -78,5 +78,7 @@
     <string name="edit_folder">Upraviť priečinok</string>
     <string name="remove_folder">Odstrániť priečinok</string>
     <string name="edit_link">Upraviť odkaz</string>
+    <string name="add_link">Pridať odkaz</string>
+    <string name="options_for">Menu pre:</string>
 
 </resources>

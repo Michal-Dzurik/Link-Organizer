@@ -24,6 +24,7 @@ import sk.po.spse.dzurikm.linkorganizer.R;
 import sk.po.spse.dzurikm.linkorganizer.activities.FolderContentActivity;
 import sk.po.spse.dzurikm.linkorganizer.activities.MainActivity;
 import sk.po.spse.dzurikm.linkorganizer.models.Folder;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.EditFolderDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.FolderOptionMenuDialog;
 import sk.po.spse.dzurikm.linkorganizer.views.AlertDialog;
@@ -64,11 +65,11 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
         holder.getFolderDescription().setText(folders.get(position).getDescription());
         if (folders.get(position).getColorId() != -1) {
             holder.getFolderBackground().setCardBackgroundColor(folders.get(position).getColorId());
-            holder.getFolderBookmark().setCardBackgroundColor(MainActivity.lighten(folders.get(position).getColorId(), 0.85F));
+            holder.getFolderBookmark().setCardBackgroundColor(ColorsUtil.lighten(folders.get(position).getColorId(), 0.85F));
         }
         else {
-            holder.getFolderBackground().setCardBackgroundColor(MainActivity.getCurrentFolderColor(context));
-            holder.getFolderBookmark().setCardBackgroundColor(MainActivity.lighten(MainActivity.getCurrentFolderColor(context), 0.85F));
+            holder.getFolderBackground().setCardBackgroundColor(ColorsUtil.getCurrentFolderColor(context));
+            holder.getFolderBookmark().setCardBackgroundColor(ColorsUtil.lighten(ColorsUtil.getCurrentFolderColor(context), 0.85F));
         }
 
         holder.getView().setOnLongClickListener(new View.OnLongClickListener() {

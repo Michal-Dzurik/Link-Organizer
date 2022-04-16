@@ -1,7 +1,9 @@
 package sk.po.spse.dzurikm.linkorganizer.views;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,20 +11,22 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.button.MaterialButton;
+
 import sk.po.spse.dzurikm.linkorganizer.R;
+import sk.po.spse.dzurikm.linkorganizer.utils.ColorsUtil;
 import sk.po.spse.dzurikm.linkorganizer.views.listeners.OnPositiveButtonClick;
 
 public class FilterDialog extends Dialog {
 
     private Context context;
     private Spinner spinner;
-    private Button positiveButton,negativeButton;
+    private MaterialButton positiveButton,negativeButton;
     private OnPositiveButtonClick onPositiveButtonClick;
     private int selected;
 
@@ -32,6 +36,7 @@ public class FilterDialog extends Dialog {
         this.onPositiveButtonClick = onPositiveButtonClick;
     }
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +47,13 @@ public class FilterDialog extends Dialog {
         this.getWindow().setDimAmount(.5f);
 
         spinner = (Spinner) findViewById(R.id.spinner);
-        positiveButton = (Button) findViewById(R.id.positiveButton);
-        negativeButton = (Button) findViewById(R.id.negativeButton);
+        positiveButton = (MaterialButton) findViewById(R.id.positiveButton);
+        negativeButton = (MaterialButton) findViewById(R.id.negativeButton);
+
+        positiveButton.getBackground().setTint(ColorsUtil.getCurrentFolderColor(context));
+        positiveButton.setRippleColor(ColorStateList.valueOf(ColorsUtil.lighten(ColorsUtil.getCurrentFolderColor(context),.75f)));
+        negativeButton.setRippleColor(ColorStateList.valueOf(ColorsUtil.lighten(context.getResources().getInteger(R.color.gentle_grey),.4f)));
+
 
         String[] paths = context.getResources().getStringArray(R.array.sort);
 
