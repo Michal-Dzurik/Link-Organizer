@@ -31,7 +31,7 @@ public class ColorPaletteAdapter extends ArrayAdapter<ColorSet> {
         super(context, 0, courseModelArrayList);
         this.listener = listener;
         currentColor = ColorsUtil.getCurrentFolderColor(context);
-
+        listener.onChange(currentColor);
     }
 
     @NonNull
