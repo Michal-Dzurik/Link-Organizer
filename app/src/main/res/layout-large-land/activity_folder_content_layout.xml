@@ -103,6 +103,7 @@
             <EditText
                 android:id="@+id/link_search_bar_input"
                 android:layout_width="fill_parent"
+                android:hint="@string/search"
                 android:layout_height="wrap_content"
                 android:backgroundTint="?attr/colorOnPrimary"/>
 

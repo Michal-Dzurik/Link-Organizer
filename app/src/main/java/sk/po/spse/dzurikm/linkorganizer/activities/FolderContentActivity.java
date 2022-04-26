@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import sk.po.spse.dzurikm.linkorganizer.R;
@@ -356,9 +357,10 @@ public class FolderContentActivity extends AppCompatActivity {
     }
 
     private void filterLinks(String term){
+        term = term.toLowerCase();
         LinkedList<Link> filteredList = new LinkedList<>();
         for (int i = 0; i < links.size(); i++) {
-            if (links.get(i).getName().contains(term)){
+            if (links.get(i).getName().toLowerCase().contains(term) || links.get(i).getDescription().toLowerCase().contains(term)){
                 filteredList.add(links.get(i));
             }
         }
